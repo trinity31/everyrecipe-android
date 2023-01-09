@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "paths": {
+    "/recipes": {
+      "name": "/recipes",
+      "lambdaFunction": "everyrecipee74c4452",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/ingredients": {
+      "name": "/ingredients",
+      "lambdaFunction": "everyrecipee74c4452",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/recommand": {
+      "name": "/recommand",
+      "lambdaFunction": "everyrecipee74c4452",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/search": {
+      "name": "/search",
+      "lambdaFunction": "everyrecipee74c4452",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 package com.example.everyrecipe.data.model
 
+import com.amplifyframework.core.model.Model
+
 data class Food(
     val id: String,
     val categoryID: String,
@@ -7,4 +9,4 @@ data class Food(
     val description: Any,
     val createdAt: String,
     val updatedAt: String
-)
+) : Model

@@ -1,0 +1,42 @@
+{
+  "version": "1",
+  "cognitoConfig": {
+    "identityPoolName": "everyrecipe_identitypool_6c2951c3",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "everyr6c2951c3",
+    "userPoolName": "everyrecipe_userpool_6c2951c3",
+    "autoVerifiedAttributes": [
+      "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+      "SMS Text Message"
+    ],
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [],
+    "requiredAttributes": [
+      "email"
+    ],
+    "aliasAttributes": [],
+    "userpoolClientGenerateSecret": false,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientWriteAttributes": [
+      "email"
+    ],
+    "userpoolClientReadAttributes": [
+      "email"
+    ],
+    "userpoolClientLambdaRole": "everyr6c2951c3_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": false,
+    "authSelections": "identityPoolAndUserPool",
+    "resourceName": "everyrecipe",
+    "sharedId": "6c2951c3",
+    "serviceName": "Cognito",
+    "useDefault": "manual"
+  }
+}

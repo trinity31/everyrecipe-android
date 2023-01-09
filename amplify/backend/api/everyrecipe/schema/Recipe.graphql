@@ -1,0 +1,14 @@
+type Recipe @model {
+  id: ID!
+  name: String!
+  description: String
+  nation: String
+  type: String
+  cookingTime: String
+  Calorie: String
+  Quantity: String
+  imageUrl: String
+  createdAt: String!
+  updatedAt: String!
+  units: [Unit] @connection(keyName: "byRecipe", fields: ["id"])
+}

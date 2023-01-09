@@ -1,0 +1,14 @@
+type Ingredient
+  @model
+  @key(name: "byFood", fields: ["foodID"])
+  @key(name: "byName", fields: ["name"]) {
+  id: ID!
+  foodID: ID!
+  categoryID: ID
+  category: String
+  name: String!
+  description: String
+  createdAt: String!
+  updatedAt: String!
+  food: Food @connection(fields: ["foodID"])
+}

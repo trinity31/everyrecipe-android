@@ -1,0 +1,13 @@
+type Unit
+  @model
+  @key(name: "byName", fields: ["name"])
+  @key(name: "byIngredient", fields: ["ingredientID"])
+  @key(name: "byRecipe", fields: ["recipeID"]) {
+  id: ID!
+  ingredientID: ID!
+  recipeID: ID!
+  name: String!
+  cpcty: String!
+  createdAt: String!
+  updatedAt: String!
+}

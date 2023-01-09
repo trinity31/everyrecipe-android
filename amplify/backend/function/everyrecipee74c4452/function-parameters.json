@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "api": {
+      "everyrecipe": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "Category:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Food:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Ingredient:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Recipe:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Unit:@model(appsync)": [
+        "create",
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

@@ -1,0 +1,10 @@
+type Food @model @key(name: "byCategory", fields: ["categoryID"]) {
+  id: ID!
+  categoryID: ID!
+  name: String!
+  description: String
+  createdAt: String!
+  updatedAt: String!
+  category: Category @connection(fields: ["categoryID"])
+  ingredients: [Ingredient] @connection(keyName: "byFood", fields: ["id"])
+}
