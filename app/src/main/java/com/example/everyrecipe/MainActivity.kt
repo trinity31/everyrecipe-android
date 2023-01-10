@@ -27,23 +27,4 @@ class MainActivity : AppCompatActivity() {
             Log.e("MyAmplifyApp", "Query failed", error)
         }
     }
-
-    suspend fun queryFirstPage() {
-        query(ModelQuery.list(Food::class.java,
-            ModelPagination.firstPage().withLimit(1_000)))
-    }
-
-    suspend fun query(request: GraphQLRequest<PaginatedResult<Food>>) {
-        try {
-            val response = Amplify.API.query(request)
-            response.data.items.forEach { todo ->
-                Log.d("MyAmplifyApp", todo.name)
-            }
-            if (response.data.hasNextResult()) {
-                query(response.data.requestForNextResult)
-            }
-        } catch (error: ApiException) {
-            Log.e("MyAmplifyApp", "Query failed.", error)
-        }
-    }
 }
