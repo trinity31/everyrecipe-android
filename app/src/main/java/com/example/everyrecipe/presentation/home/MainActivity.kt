@@ -1,20 +1,15 @@
-package com.example.everyrecipe
+package com.example.everyrecipe.presentation.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.amplifyframework.api.ApiException
-import com.amplifyframework.api.graphql.GraphQLRequest
-import com.amplifyframework.api.graphql.PaginatedResult
-import com.amplifyframework.api.graphql.model.ModelMutation
-import com.amplifyframework.api.graphql.model.ModelPagination
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.datastore.generated.model.Recipe
 import com.amplifyframework.kotlin.core.Amplify
-import com.example.everyrecipe.data.model.Food
+import com.example.everyrecipe.R
 import com.example.everyrecipe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
