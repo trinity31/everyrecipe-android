@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/freezerFragment">
+
+    <fragment
+        android:id="@+id/freezerFragment"
+        android:name="com.example.everyrecipe.presentation.setup.FreezerFragment"
+        android:label="@string/freezer_fragment_label"
+        tools:layout="@layout/fragment_freezer">
+
+        <action
+            android:id="@+id/action_freezerFragment_to_vegoptionFragment"
+            app:destination="@id/vegOptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vegOptionFragment"
+        android:name="com.example.everyrecipe.presentation.setup.VegOptionFragment"
+        android:label="@string/vegoption_fragment_label"
+        tools:layout="@layout/fragment_vegoption">
+
+        <action
+            android:id="@+id/action_vegoptionFragment_to_freezerFragment"
+            app:destination="@id/freezerFragment" />
+    </fragment>
+</navigation>

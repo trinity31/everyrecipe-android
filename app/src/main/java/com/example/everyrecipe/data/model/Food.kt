@@ -9,4 +9,4 @@ data class Food(
     val description: Any,
     val createdAt: String,
     val updatedAt: String
-) : Model
+)

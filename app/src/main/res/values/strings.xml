@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">EveryRecipe</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->title_activity_setup
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_setup">SetupActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="freezer_fragment_label">냉장고속 재료 선택</string>
+    <string name="vegoption_fragment_label">채식 단계 선택</string>
+    <string name="next">다음</string>
+    <string name="previous">이전</string>
+    <string name="skip">건너뛰기</string>
 </resources>

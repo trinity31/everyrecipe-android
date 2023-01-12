@@ -7,8 +7,8 @@ import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.PaginatedResult
 import com.amplifyframework.api.graphql.model.ModelPagination
 import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.datastore.generated.model.Food
 import com.amplifyframework.kotlin.core.Amplify
-import com.example.everyrecipe.data.model.Food
 import com.example.everyrecipe.data.repository.dataSource.FoodRemoteDataSource
 
 class FoodRemoteDataSourceImpl(): FoodRemoteDataSource {
@@ -37,8 +37,8 @@ class FoodRemoteDataSourceImpl(): FoodRemoteDataSource {
     suspend fun query(request: GraphQLRequest<PaginatedResult<Food>>): GraphQLResponse<PaginatedResult<Food>>? {
         try {
             val response = Amplify.API.query(request)
-            response.data.items.forEach { todo ->
-                Log.d("FoodRemoteDataSourceImpl", todo.name)
+            response.data.items.forEach { food ->
+                Log.d("FoodRemoteDataSourceImpl", "name: ${food}")
             }
             if (response.data.hasNextResult()) {
                 return query(response.data.requestForNextResult)
