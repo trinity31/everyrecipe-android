@@ -3,8 +3,8 @@ package com.example.everyrecipe.data.repository
 import android.util.Log
 import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.PaginatedResult
+import com.amplifyframework.datastore.generated.model.Category
 import com.amplifyframework.datastore.generated.model.Food
-import com.example.everyrecipe.data.model.Category
 import com.example.everyrecipe.data.repository.dataSource.FoodRemoteDataSource
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.domain.repository.FoodRepository
@@ -31,6 +31,41 @@ class FoodRepositoryImpl(
 
     override suspend fun getAllFoods(): Flow<List<Food>>? {
         return foodRemoteDataSource.getAllFoods()?.toFlow()
+    }
+
+    override suspend fun getCategories(): Resource<List<Category>> {
+        val response = foodRemoteDataSource.getCategories()
+        if(response?.hasData() == true) {
+            return Resource.Success(response.toList())
+        } else {
+            return Resource.Error(response.toString())
+        }
+    }
+
+    private fun GraphQLResponse<PaginatedResult<Category>>.toList(): List<Category> {
+        val items = mutableListOf<Category>()
+        for (page in this@toList.data) {
+            items.add(page)
+        }
+        return items
+    }
+
+    override suspend fun getFoodsByCategory(categoryId: String): Resource<List<Food>> {
+        val response = foodRemoteDataSource.getFoodsByCategory(categoryId)
+        if(response?.hasData() == true) {
+            return Resource.Success(response.toList())
+        } else {
+            return Resource.Error(response.toString())
+        }
+    }
+
+    @JvmName("toListFood")
+    private fun GraphQLResponse<PaginatedResult<Food>>.toList(): List<Food>  {
+        val items = mutableListOf<Food>()
+        for (page in this@toList.data) {
+            items.add(page)
+        }
+        return items
     }
 
     private fun GraphQLResponse<PaginatedResult<Food>>.toFlow(): Flow<List<Food>> = flow {

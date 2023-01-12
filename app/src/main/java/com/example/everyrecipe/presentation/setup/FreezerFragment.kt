@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.everyrecipe.R
+import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,28 @@ class FreezerFragment : Fragment() {
             findNavController().navigate(R.id.action_freezerFragment_to_vegoptionFragment)
         }
 
-        viewModel.getAllFoods()
+        viewModel.getCategories()
+
+        viewModel.categories.observe(viewLifecycleOwner, {
+            when(it) {
+                is Resource.Success -> {
+                    it.data?.forEach {
+                        viewModel.getFoodsByCategory(it.id)
+                    }
+                }
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+            }
+        })
+
+        viewModel.foods.observe(viewLifecycleOwner, {
+            when(it) {
+                is Resource.Success -> {
+                }
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+            }
+        })
     }
 
     override fun onDestroyView() {
