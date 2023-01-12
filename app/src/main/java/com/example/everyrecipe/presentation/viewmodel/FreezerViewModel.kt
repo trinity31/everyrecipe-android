@@ -11,6 +11,7 @@ import com.example.everyrecipe.domain.repository.FoodRepository
 import com.example.everyrecipe.domain.repository.FreezerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -45,8 +46,8 @@ class FreezerViewModel @Inject constructor(
     fun getFoodsByCategory(categoryId: String) = viewModelScope.launch(Dispatchers.IO) {
         try {
             val response = foodRepository.getFoodsByCategory(categoryId)
-            Log.i(TAG, "Fetched Foods for category id ${categoryId}")
-            Log.i(TAG, "${response.data}")
+            //Log.i(TAG, "Fetched Foods for category id ${categoryId}")
+            //Log.i(TAG, "${response.data}")
             foods.postValue(response)
         } catch(e: Exception) {
             foods.postValue(Resource.Error(e.message.toString()))

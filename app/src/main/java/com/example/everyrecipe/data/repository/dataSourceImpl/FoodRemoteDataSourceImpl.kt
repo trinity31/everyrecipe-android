@@ -46,7 +46,7 @@ class FoodRemoteDataSourceImpl(): FoodRemoteDataSource {
         try {
             val foodList = Amplify.API
                 .query(ModelQuery.list(Food::class.java, Food.CATEGORY.contains(categoryId)))
-            foodList.data.items.forEach { food -> Log.i(TAG, food.name) }
+            //foodList.data.items.forEach { food -> Log.i(TAG, food.name) }
             return foodList
         } catch (error: ApiException) {
             Log.e(TAG, "Query failure", error)
