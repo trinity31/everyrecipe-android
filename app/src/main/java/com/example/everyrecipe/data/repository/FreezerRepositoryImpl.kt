@@ -9,12 +9,14 @@ class FreezerRepositoryImpl(
     private val freezerLocalDataSource: FreezerLocalDataSource
 ): FreezerRepository {
     override suspend fun setFreezerItems(items: List<FreezerItem>) {
-        items.forEach {
-            freezerLocalDataSource.saveFreezerItemToDB(it)
-        }
+        freezerLocalDataSource.saveFreezerItemsToDB(items)
     }
 
-    override fun getFreezerItems(): Flow<List<FreezerItem>> {
+    override suspend fun getFreezerItems(): Flow<List<FreezerItem>> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun removeFreezerItems(items: List<FreezerItem>) {
+        freezerLocalDataSource.removeFreezerItemsToDB(items)
     }
 }

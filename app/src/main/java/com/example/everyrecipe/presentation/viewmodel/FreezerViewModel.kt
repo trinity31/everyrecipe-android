@@ -56,6 +56,12 @@ class FreezerViewModel @Inject constructor(
     }
 
     fun setFreezerItems(items: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "Set freezer ${items.size} items ")
         freezerRepository.setFreezerItems(items)
+    }
+
+    fun removeFreezerItems(items: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "Remove freezer ${items.size} items ")
+        freezerRepository.removeFreezerItems(items)
     }
 }

@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface FreezerRepository {
     suspend fun setFreezerItems(items: List<FreezerItem>)
-    fun getFreezerItems(): Flow<List<FreezerItem>>
+    suspend fun getFreezerItems(): Flow<List<FreezerItem>>
+    suspend fun removeFreezerItems(items: List<FreezerItem>)
 }

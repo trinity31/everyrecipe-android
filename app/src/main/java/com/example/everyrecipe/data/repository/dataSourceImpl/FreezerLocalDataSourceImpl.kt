@@ -6,7 +6,11 @@ import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.data.repository.dataSource.FreezerLocalDataSource
 
 class FreezerLocalDataSourceImpl(private val freezerDAO: FreezerDAO): FreezerLocalDataSource {
-    override suspend fun saveFreezerItemToDB(freezerItem: FreezerItem) {
-        freezerDAO.insert(freezerItem)
+    override suspend fun saveFreezerItemsToDB(items: List<FreezerItem>) {
+        freezerDAO.insertMultipleItems(items)
+    }
+
+    override suspend fun removeFreezerItemsToDB(items: List<FreezerItem>) {
+        freezerDAO.deleteMultipleItems(items)
     }
 }

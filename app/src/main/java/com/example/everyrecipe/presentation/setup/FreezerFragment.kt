@@ -115,7 +115,7 @@ class FreezerFragment : Fragment() {
     }
 
     private fun setAdapters(position: Int) {
-        concatAdapter.addAdapter(FreezerCategoryAdapter(categories[position].name, listOf()))
+        concatAdapter.addAdapter(FreezerCategoryAdapter(categories[position].name, listOf(), viewModel))
         viewModel.getFoodsByCategory(categories[position].id)
         if(position == 0) {
             binding.progressBar.visibility = View.VISIBLE

@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Food
+import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.databinding.AdapterFreezerCategoryItemBinding
+import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
 import com.google.android.material.chip.Chip
 
 class FreezerCategoryAdapter(
     var categoryName: String,
-    var foods: List<Food>
+    var foods: List<Food>,
+    var viewModel: FreezerViewModel
 ) : RecyclerView.Adapter<FreezerCategoryAdapter.CategoryViewHolder>() {
     private lateinit var context: Context
 
@@ -43,7 +46,15 @@ class FreezerCategoryAdapter(
                     Log.i("FreezerCategoryAdapter", "${foods[index].name} clicked, checked: ${chip.isChecked}")
                 }
                 chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                    Log.i("FreezerCategoryAdapter", "isChecked: $isChecked")
+                    Log.i("FreezerCategoryAdapter", "isChecked: $isChecked, index: ${binding.chipGroup.indexOfChild(chip)}")
+                    val food = foods[binding.chipGroup.indexOfChild(chip)]
+                    val freezerItem = FreezerItem(food.id, food.category.id, food.name)
+                    Log.i("FreezerCategoryAdapter", "Add New Freezer Item: $freezerItem")
+                    if(isChecked) {
+                        viewModel.setFreezerItems(listOf(freezerItem))
+                    } else {
+                        viewModel.removeFreezerItems(listOf(freezerItem))
+                    }
                 }
             }
         }
