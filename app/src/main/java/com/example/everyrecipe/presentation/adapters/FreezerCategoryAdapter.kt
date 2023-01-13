@@ -41,6 +41,7 @@ class FreezerCategoryAdapter(
                 chip.text = food.name
                 binding.chipGroup.addView(chip)
                 chip.isCheckable = true
+                chip.isChecked = viewModel.checkFoodExistsInFreezer(food.name)
                 chip.setOnClickListener {
                     val index = binding.chipGroup.indexOfChild(it)
                     Log.i("FreezerCategoryAdapter", "${foods[index].name} clicked, checked: ${chip.isChecked}")

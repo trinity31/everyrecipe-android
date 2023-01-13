@@ -2,14 +2,12 @@ package com.example.everyrecipe.data.db
 
 import androidx.room.*
 import com.example.everyrecipe.data.model.FreezerItem
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FreezerDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(item: FreezerItem)
-
-    @Delete
-    suspend fun delete(item: FreezerItem)
+    @Query("SELECT * from freezerItems")
+    suspend fun getAllItems(): List<FreezerItem>
 
     @Transaction
     suspend fun insertMultipleItems(items: List<FreezerItem>) {
@@ -24,4 +22,10 @@ interface FreezerDAO {
             delete(it)
         }
     }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(item: FreezerItem)
+
+    @Delete
+    suspend fun delete(item: FreezerItem)
 }

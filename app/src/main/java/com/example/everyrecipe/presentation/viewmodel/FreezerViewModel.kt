@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +27,7 @@ class FreezerViewModel @Inject constructor(
     private val TAG = FreezerViewModel::class.java.simpleName
     var foods: MutableLiveData<Resource<List<Food>>> = MutableLiveData()
     var categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
+    var freezerItems: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
 
     fun getAllFoods() = viewModelScope.launch(Dispatchers.IO) {
         //foods.postValue(Resource.Loading())
@@ -63,5 +65,19 @@ class FreezerViewModel @Inject constructor(
     fun removeFreezerItems(items: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
         Log.i(TAG, "Remove freezer ${items.size} items ")
         freezerRepository.removeFreezerItems(items)
+    }
+
+    fun getFreezerItems() = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "Get freezer items ")
+        try {
+            val response = freezerRepository.getFreezerItems()
+            freezerItems.postValue(response)
+        } catch(e: Exception) {
+            freezerItems.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun checkFoodExistsInFreezer(name: String): Boolean {
+        return freezerItems.value?.data?.find { it.name == name } != null
     }
 }
