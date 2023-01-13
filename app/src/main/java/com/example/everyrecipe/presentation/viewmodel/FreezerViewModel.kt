@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amplifyframework.datastore.generated.model.Category
 import com.amplifyframework.datastore.generated.model.Food
+import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.domain.repository.FoodRepository
 import com.example.everyrecipe.domain.repository.FreezerRepository
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FreezerViewModel @Inject constructor(
     private val foodRepository: FoodRepository,
-//    private val freezerRepository: FreezerRepository
+    private val freezerRepository: FreezerRepository
 ) : ViewModel() {
     private val TAG = FreezerViewModel::class.java.simpleName
     var foods: MutableLiveData<Resource<List<Food>>> = MutableLiveData()
@@ -52,5 +53,9 @@ class FreezerViewModel @Inject constructor(
         } catch(e: Exception) {
             foods.postValue(Resource.Error(e.message.toString()))
         }
+    }
+
+    fun setFreezerItems(items: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
+        freezerRepository.setFreezerItems(items)
     }
 }
