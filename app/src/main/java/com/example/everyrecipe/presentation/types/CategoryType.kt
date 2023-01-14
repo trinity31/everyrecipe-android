@@ -1,4 +1,4 @@
-package com.example.everyrecipe.data.types
+package com.example.everyrecipe.presentation.types
 
 enum class CategoryType(val categoryId: String) {
     VEG("1e1f0b80-9423-11ec-b5d2-43970bc42d5d"),

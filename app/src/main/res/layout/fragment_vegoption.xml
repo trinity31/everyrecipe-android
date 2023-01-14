@@ -4,24 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     tools:context=".presentation.setup.VegOptionFragment">
 
     <TextView
-        android:id="@+id/textview_second"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
+        android:text="@string/vegoption_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_second"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+        <RadioGroup
+            android:id="@+id/vegtype_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/green_outline_box"
+            android:divider="@color/light_green"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:showDividers="middle">
+
+            <RadioButton
+                android:id="@+id/vegan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="비건" />
+
+            <RadioButton
+                android:id="@+id/lacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="락토" />
+            <RadioButton
+                android:id="@+id/ovo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="오보" />
+            <RadioButton
+                android:id="@+id/lacto_ovo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="락토오보" />
+            <RadioButton
+                android:id="@+id/pesco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="페스코" />
+            <RadioButton
+                android:id="@+id/none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/VegOptionRadioButton"
+                android:text="채식안함" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="다음"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

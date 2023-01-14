@@ -22,4 +22,12 @@
 
     <include layout="@layout/content_setup" />
 
+    <Button
+        android:id="@+id/button_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_anchor="@id/content_setup"
+        app:layout_anchorGravity="bottom"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

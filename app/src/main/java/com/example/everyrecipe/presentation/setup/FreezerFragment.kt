@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.Category
 import com.example.everyrecipe.R
-import com.example.everyrecipe.data.types.CategoryType
+import com.example.everyrecipe.presentation.types.CategoryType
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.presentation.adapters.FreezerCategoryAdapter
@@ -72,6 +71,10 @@ class FreezerFragment : Fragment() {
         }
 
         binding.buttonSkip.setOnClickListener {
+            findNavController().navigate(R.id.action_freezerFragment_to_vegoptionFragment)
+        }
+
+        binding.buttonNext.setOnClickListener {
             findNavController().navigate(R.id.action_freezerFragment_to_vegoptionFragment)
         }
     }

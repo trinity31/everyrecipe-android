@@ -42,6 +42,7 @@ dependencies {
     def lifecycle_version = "2.5.1"
     def nav_version = "2.5.3"
     def room_version = "2.5.0"
+    def preference_version = "1.2.0"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -62,6 +63,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     kapt 'com.github.bumptech.glide:compiler:4.13.2'
+    implementation("androidx.preference:preference-ktx:$preference_version")
     // Amplify core dependency
     implementation 'com.amplifyframework:core:2.1.0'
     implementation 'com.amplifyframework:core-kotlin:2.0.0'
