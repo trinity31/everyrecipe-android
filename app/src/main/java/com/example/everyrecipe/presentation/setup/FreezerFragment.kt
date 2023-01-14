@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,9 @@ import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.presentation.adapters.FreezerCategoryAdapter
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
+import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -27,8 +30,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class FreezerFragment : Fragment() {
     private val TAG = FreezerFragment::class.java.simpleName
 
-    private val viewModel: FreezerViewModel by viewModels()
-
+    //private val viewModel: FreezerViewModel by viewModels()
+    @Inject
+    lateinit var factory: FreezerViewModelFactory
+    lateinit var viewModel: FreezerViewModel
     private var _binding: FragmentFreezerBinding? = null
 
     // This property is only valid between onCreateView and
@@ -51,6 +56,9 @@ class FreezerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this, factory)
+            .get(FreezerViewModel::class.java)
 
         initView()
         initData()

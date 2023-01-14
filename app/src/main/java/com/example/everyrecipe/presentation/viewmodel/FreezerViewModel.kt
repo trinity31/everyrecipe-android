@@ -1,6 +1,8 @@
 package com.example.everyrecipe.presentation.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,11 +21,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class FreezerViewModel @Inject constructor(
+class FreezerViewModel constructor(
+    private val app: Application,
     private val foodRepository: FoodRepository,
     private val freezerRepository: FreezerRepository
-) : ViewModel() {
+) : AndroidViewModel(app) {
     private val TAG = FreezerViewModel::class.java.simpleName
     var foods: MutableLiveData<Resource<List<Food>>> = MutableLiveData()
     var categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
