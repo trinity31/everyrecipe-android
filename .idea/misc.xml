@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/green_outline_box.xml" value="0.145" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_setup.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/fragment_freezer.xml" value="0.1793478260869565" />

@@ -69,14 +69,6 @@ class FreezerFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = concatAdapter
         }
-
-        binding.buttonSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_freezerFragment_to_vegoptionFragment)
-        }
-
-        binding.buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_freezerFragment_to_vegoptionFragment)
-        }
     }
 
     private fun initData() {
