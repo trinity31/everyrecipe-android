@@ -40,6 +40,7 @@ class SetupActivity : AppCompatActivity() {
                 resources.getString(R.string.vegoption_fragment_label) -> {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
         }

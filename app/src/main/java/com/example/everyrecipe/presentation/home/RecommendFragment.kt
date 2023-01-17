@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.everyrecipe.R
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.databinding.FragmentRecommendBinding
+import com.example.everyrecipe.presentation.adapters.RecipeListAdapter
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import com.example.everyrecipe.presentation.viewmodel.RecommendViewModel
@@ -30,12 +32,13 @@ class RecommendFragment : Fragment() {
     @Inject
     lateinit var factory: FreezerViewModelFactory
     lateinit var freezerViewModel: FreezerViewModel
-    lateinit var recommendViewModel: RecommendViewModel
 
     private val viewModel: RecommendViewModel by viewModels()
 
     private var _binding: FragmentRecommendBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var recipeListAdapter: RecipeListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +54,17 @@ class RecommendFragment : Fragment() {
         freezerViewModel = ViewModelProvider(this, factory)
             .get(FreezerViewModel::class.java)
 
+        initView()
         initData()
         initObserve()
+    }
+
+    private fun initView() {
+        recipeListAdapter = RecipeListAdapter(listOf())
+        binding.recommendRv.apply {
+            adapter = recipeListAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
     }
 
     private fun initData() {
@@ -76,16 +88,18 @@ class RecommendFragment : Fragment() {
         viewModel.recipes.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
+                    binding.progressBar.visibility = View.INVISIBLE
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
-                    it.data?.forEach {
-                        Log.i(TAG, it.toString())
+                    it.data?.let { recipes ->
+                        recipeListAdapter.recipes = recipes
+                        recipeListAdapter.notifyDataSetChanged()
                     }
                 }
                 is Resource.Error -> {
-                    Log.i(TAG, "Error loading recipes. ${it.message}")
+                    binding.progressBar.visibility = View.INVISIBLE
                 }
                 is Resource.Loading -> {
-                    Log.i(TAG, "Loading recipes.")
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }

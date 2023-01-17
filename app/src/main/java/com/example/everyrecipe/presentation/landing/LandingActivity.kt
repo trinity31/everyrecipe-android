@@ -18,6 +18,7 @@ class LandingActivity : AppCompatActivity() {
         binding.bottomButton.setOnClickListener {
             val intent = Intent(this, SetupActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

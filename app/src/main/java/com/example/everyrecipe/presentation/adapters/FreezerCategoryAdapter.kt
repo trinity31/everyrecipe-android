@@ -32,7 +32,9 @@ class FreezerCategoryAdapter(
         return 1
     }
 
-    inner class CategoryViewHolder(val binding: AdapterFreezerCategoryItemBinding): RecyclerView.ViewHolder(binding.root){
+    inner class CategoryViewHolder(
+        val binding: AdapterFreezerCategoryItemBinding
+        ): RecyclerView.ViewHolder(binding.root){
         fun bind() {
             binding.tvTitle.text = categoryName
             binding.chipGroup.removeAllViews()
