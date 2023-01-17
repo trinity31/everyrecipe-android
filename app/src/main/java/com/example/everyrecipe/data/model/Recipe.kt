@@ -1,6 +1,6 @@
 package com.example.everyrecipe.data.model
 
 data class Recipe(
-    val ingredients: List<String>,
-    val recipe: RecipeInfo
+    val recipe: RecipeInfo,
+    val ingredients: List<String>
 )

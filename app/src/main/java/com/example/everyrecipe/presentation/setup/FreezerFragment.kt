@@ -21,10 +21,6 @@ import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-
 @AndroidEntryPoint
 class FreezerFragment : Fragment() {
     private val TAG = FreezerFragment::class.java.simpleName
@@ -133,10 +129,6 @@ class FreezerFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched freezer items.")
-//                    val items = it.data
-//                    items?.forEach {
-//                        Log.i(TAG, it.name)
-//                    }
                 }
                 is Resource.Error -> {}
                 is Resource.Loading -> {}

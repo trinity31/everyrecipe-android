@@ -11,7 +11,9 @@ import com.amplifyframework.datastore.generated.model.Recipe
 import com.amplifyframework.kotlin.core.Amplify
 import com.example.everyrecipe.R
 import com.example.everyrecipe.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

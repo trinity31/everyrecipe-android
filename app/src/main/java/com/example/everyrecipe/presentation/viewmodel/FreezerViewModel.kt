@@ -27,15 +27,10 @@ class FreezerViewModel constructor(
     private val freezerRepository: FreezerRepository
 ) : AndroidViewModel(app) {
     private val TAG = FreezerViewModel::class.java.simpleName
+
     var foods: MutableLiveData<Resource<List<Food>>> = MutableLiveData()
     var categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
     var freezerItems: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
-
-    fun getAllFoods() = viewModelScope.launch(Dispatchers.IO) {
-        //foods.postValue(Resource.Loading())
-        val result = foodRepository.getAllFoods()
-        //foods.postValue(result)
-    }
 
     fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         categories.postValue(Resource.Loading())
@@ -70,7 +65,6 @@ class FreezerViewModel constructor(
     }
 
     fun getFreezerItems() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(TAG, "Get freezer items ")
         try {
             val response = freezerRepository.getFreezerItems()
             freezerItems.postValue(response)
