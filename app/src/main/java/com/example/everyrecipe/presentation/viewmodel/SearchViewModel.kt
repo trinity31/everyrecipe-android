@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amplifyframework.datastore.generated.model.Food
 import com.example.everyrecipe.data.model.FreezerItem
+import com.example.everyrecipe.data.model.Recipe
+import com.example.everyrecipe.data.param.req.ReqParamSearchRecipe
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.domain.repository.FoodRepository
 import com.example.everyrecipe.domain.repository.RecipeRepository
@@ -27,6 +29,8 @@ class SearchViewModel @Inject constructor(
     var searchFoods: MutableList<FreezerItem> = mutableListOf()
     //자동완성 리스트에 나타나는 음식 목록
     var filteredFoods: MutableLiveData<List<Food>> = MutableLiveData()
+    //레시피 검색 결과
+    var recipes: MutableLiveData<Resource<List<Recipe>>> = MutableLiveData()
 
     fun getAllFoods() = viewModelScope.launch(Dispatchers.IO) {
         foods.postValue(Resource.Loading())
@@ -73,10 +77,15 @@ class SearchViewModel @Inject constructor(
         filteredFoods.value = listOf()
     }
 
-    fun searchRecipes() {
-        Log.i(TAG, "Search Recipes with..")
-        searchFoods.forEach {
-            Log.i(TAG, it.name)
+    fun searchRecipes() = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "Search Recipes start.")
+        val param = ReqParamSearchRecipe(searchItems = searchFoods)
+        recipes.postValue(Resource.Loading())
+        try {
+            val response = recipeRepository.getSearchedRecipes(param)
+            recipes.postValue(response)
+        } catch (e: Exception) {
+            recipes.postValue(Resource.Error(e.message.toString()))
         }
     }
 }

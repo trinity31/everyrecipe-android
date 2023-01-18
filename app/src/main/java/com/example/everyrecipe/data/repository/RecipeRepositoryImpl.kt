@@ -1,14 +1,11 @@
 package com.example.everyrecipe.data.repository
 
-import android.util.Log
-import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.rest.RestResponse
-import com.amplifyframework.datastore.generated.model.Food
 import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.data.model.Ingredient
 import com.example.everyrecipe.data.model.Procedure
 import com.example.everyrecipe.data.model.Recipe
-import com.example.everyrecipe.data.param.req.ReqParamRecommendRecipe
+import com.example.everyrecipe.data.param.req.ReqParamSearchRecipe
 import com.example.everyrecipe.data.param.res.RecommendRecipeOutput
 import com.example.everyrecipe.data.repository.dataSource.RecipeRemoteDataSource
 import com.example.everyrecipe.data.util.Resource
@@ -18,7 +15,7 @@ import com.google.gson.Gson
 class RecipeRepositoryImpl(
     private val recipeRemoteDataSource: RecipeRemoteDataSource
 ): RecipeRepository {
-    override suspend fun getRecommendedRecipes(reqParam: ReqParamRecommendRecipe): Resource<List<Recipe>> {
+    override suspend fun getRecommendedRecipes(reqParam: ReqParamSearchRecipe): Resource<List<Recipe>> {
         return responceToResource(recipeRemoteDataSource.getRecommendedRecipes(reqParam.getParamMap()))
     }
 
@@ -32,8 +29,8 @@ class RecipeRepositoryImpl(
         }
     }
 
-    override suspend fun getSearchedRecipes(keywords: List<FreezerItem>): Resource<List<Recipe>> {
-        TODO("Not yet implemented")
+    override suspend fun getSearchedRecipes(reqParam: ReqParamSearchRecipe): Resource<List<Recipe>> {
+        return responceToResource(recipeRemoteDataSource.getSearchedRecipes(reqParam.getParamMap()))
     }
 
     override suspend fun getBookmarkedRecipes(): Resource<List<Recipe>> {

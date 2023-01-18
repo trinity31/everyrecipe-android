@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.Food
 import com.example.everyrecipe.data.model.FreezerItem
+import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentSearchBinding
 import com.example.everyrecipe.presentation.adapters.FoodSuggestAdapter
@@ -126,6 +127,21 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                     val items = (it.data) as List<FreezerItem>
                     items.forEach {
                         addFreezerItemsToChipGroup(it)
+                    }
+                }
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+            }
+        }
+
+        viewModel.recipes.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    Log.i(TAG, "Successfully fetched ${it.data?.size} recipes.")
+                    val items = (it.data) as List<Recipe>
+                    items.forEach {
+                        Log.i(TAG,
+                            "$it")
                     }
                 }
                 is Resource.Error -> {}
