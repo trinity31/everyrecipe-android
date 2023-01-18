@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 class FoodRepositoryImpl(
     private val foodRemoteDataSource: FoodRemoteDataSource
@@ -29,8 +28,13 @@ class FoodRepositoryImpl(
         }
     }
 
-    override suspend fun getAllFoods(): Flow<List<Food>>? {
-        return foodRemoteDataSource.getAllFoods()?.toFlow()
+    override suspend fun getAllFoods(): Resource<List<Food>> {
+        val response = foodRemoteDataSource.getAllFoods()
+        if(response?.hasData() == true) {
+            return Resource.Success(response.toList())
+        } else {
+            return Resource.Error(response.toString())
+        }
     }
 
     override suspend fun getCategories(): Resource<List<Category>> {

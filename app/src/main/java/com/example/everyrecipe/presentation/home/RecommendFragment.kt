@@ -20,11 +20,6 @@ import com.example.everyrecipe.presentation.viewmodel.RecommendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 @AndroidEntryPoint
 class RecommendFragment : Fragment() {
     private val TAG = RecommendFragment::class.java.simpleName

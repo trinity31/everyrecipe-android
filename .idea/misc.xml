@@ -5,11 +5,14 @@
       <map>
         <entry key="app/src/main/res/drawable/green_outline_box.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/image_placeholder.xml" value="0.145" />
+        <entry key="app/src/main/res/drawable/search_view_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_setup.xml" value="0.1793478260869565" />
+        <entry key="app/src/main/res/layout/food_suggest_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_freezer.xml" value="0.1793478260869565" />
-        <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_vegoption.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recipe_list_item.xml" value="0.17239583333333333" />
       </map>
