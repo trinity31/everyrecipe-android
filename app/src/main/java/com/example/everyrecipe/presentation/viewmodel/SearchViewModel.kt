@@ -53,13 +53,11 @@ class SearchViewModel @Inject constructor(
     }
 
     fun addToSearchFoods(item: FreezerItem) {
-        Log.i(TAG, "addToSearchFoods, item: $item")
         searchFoods.add(item)
         filteredFoods.value = listOf()
     }
 
     fun removeFromSearchFoods(name: String?): Int {
-        Log.i(TAG, "Remove $name")
         var indexToRemove = -1
         searchFoods.filterIndexed { index, freezerItem ->
             if(freezerItem.name == name) {
@@ -78,7 +76,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchRecipes() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(TAG, "Search Recipes start.")
         val param = ReqParamSearchRecipe(searchItems = searchFoods)
         recipes.postValue(Resource.Loading())
         try {

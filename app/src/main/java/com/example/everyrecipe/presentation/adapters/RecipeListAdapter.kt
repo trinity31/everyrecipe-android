@@ -32,12 +32,12 @@ class RecipeListAdapter(
         val binding: RecipeListItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
-            binding.recipeTitle.text = recipe.recipe.name
-            binding.recipeDescription.text = recipe.recipe.description
+            binding.recipeTitle.text = recipe.recipe?.name ?: ""
+            binding.recipeDescription.text = recipe.recipe?.description ?: ""
             binding.recipeIngredients.text = recipe.ingredients.joinToString(", ")
 
             Glide.with(binding.recipeThumbnail.context)
-                .load(recipe.recipe.imageUrl)
+                .load(recipe.recipe?.imageUrl)
                 .into(binding.recipeThumbnail)
         }
     }

@@ -1,5 +1,7 @@
 package com.example.everyrecipe.data.model
 
+import java.io.Serializable
+
 data class RecipeInfo(
     val Calorie: String = "", //350Kcal
     val Quantity: String = "",  //4인분
@@ -12,4 +14,4 @@ data class RecipeInfo(
     val nation: String = "", //한식
     val type: String = "", //찜
     val updatedAt: String = "" //2022-03-28T10:29:15+09:00
-)
+) : Serializable

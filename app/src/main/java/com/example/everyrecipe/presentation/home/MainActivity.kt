@@ -26,13 +26,4 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
     }
-
-    private suspend fun getRecipe(id: String) {
-        try {
-            val response = Amplify.API.query(ModelQuery.get(Recipe::class.java, id))
-            Log.i("MyAmplifyApp", response.data.name)
-        } catch (error: ApiException) {
-            Log.e("MyAmplifyApp", "Query failed", error)
-        }
-    }
 }

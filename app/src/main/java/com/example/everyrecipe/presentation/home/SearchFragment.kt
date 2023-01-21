@@ -1,5 +1,6 @@
 package com.example.everyrecipe.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.Food
 import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.data.model.Recipe
+import com.example.everyrecipe.data.model.RecipeList
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentSearchBinding
 import com.example.everyrecipe.presentation.adapters.FoodSuggestAdapter
@@ -22,6 +24,7 @@ import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import com.example.everyrecipe.presentation.viewmodel.SearchViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -139,10 +142,9 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched ${it.data?.size} recipes.")
                     val items = (it.data) as List<Recipe>
-                    items.forEach {
-                        Log.i(TAG,
-                            "$it")
-                    }
+                    val intent = Intent(requireActivity(), SearchResultActivity::class.java)
+                    intent.putExtra("recipe_list", RecipeList(items) as Serializable)
+                    startActivity(intent)
                 }
                 is Resource.Error -> {}
                 is Resource.Loading -> {}
@@ -168,7 +170,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.freezerChip.addView(chip)
         chip.isCloseIconVisible = false
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
-            Log.i(TAG, "${chip.text} isChecked: $isChecked")
             if(isChecked) {
                viewModel.addToSearchFoods(item)
                 addFoodToChipGroup(item.name)
