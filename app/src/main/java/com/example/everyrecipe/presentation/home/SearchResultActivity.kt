@@ -46,6 +46,12 @@ class SearchResultActivity : AppCompatActivity() {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(this@SearchResultActivity)
         }
+        recipeListAdapter.setOnItemClickListener(object: RecipeListAdapter.OnItemClickListener {
+            override fun onItemClick(recipe: Recipe) {
+                Log.i(TAG, "Recipe clicked: $recipe")
+                //Add or Remve Bookmark
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

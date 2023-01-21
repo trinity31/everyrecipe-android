@@ -2,6 +2,8 @@ package com.example.everyrecipe.presentation.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.everyrecipe.data.db.BookmarkDAO
+import com.example.everyrecipe.data.db.BookmarkDatabase
 import com.example.everyrecipe.data.db.FreezerDAO
 import com.example.everyrecipe.data.db.FreezerDatabase
 import dagger.Module
@@ -25,5 +27,19 @@ class DatabaseModule {
     @Provides
     fun provideFreezerDao(freezerDatabase: FreezerDatabase): FreezerDAO {
         return freezerDatabase.getFreezerDAO()
+    }
+
+    @Singleton
+    @Provides
+    fun provideBookmarkDatabase(app: Application): BookmarkDatabase {
+        return Room.databaseBuilder(app, BookmarkDatabase::class.java, "bookmark_db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideBookmarkDAO(bookmarkDatabase: BookmarkDatabase): BookmarkDAO {
+        return bookmarkDatabase.getBookmarkDAO()
     }
 }

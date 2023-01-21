@@ -3,6 +3,7 @@ package com.example.everyrecipe.presentation.di
 import com.example.everyrecipe.data.repository.FoodRepositoryImpl
 import com.example.everyrecipe.data.repository.FreezerRepositoryImpl
 import com.example.everyrecipe.data.repository.RecipeRepositoryImpl
+import com.example.everyrecipe.data.repository.dataSource.BookmarkLocalDataSource
 import com.example.everyrecipe.data.repository.dataSource.FoodRemoteDataSource
 import com.example.everyrecipe.data.repository.dataSource.FreezerLocalDataSource
 import com.example.everyrecipe.data.repository.dataSource.RecipeRemoteDataSource
@@ -37,8 +38,9 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRecipeRepository(
-        recipeRemoteDataSource: RecipeRemoteDataSource
+        recipeRemoteDataSource: RecipeRemoteDataSource,
+        bookmarkLocalDataSource: BookmarkLocalDataSource
     ): RecipeRepository {
-        return RecipeRepositoryImpl(recipeRemoteDataSource)
+        return RecipeRepositoryImpl(recipeRemoteDataSource, bookmarkLocalDataSource)
     }
 }

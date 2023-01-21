@@ -70,7 +70,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             foodSuggestAdapter.setOnItemClickListener(object: FoodSuggestAdapter.OnItemClickListener {
                 override fun onItemClick(food: Food) {
-                    Log.i(TAG, "food: $food")
                     val item = FreezerItem(food.id, food.category.id, food.name)
                     viewModel.addToSearchFoods(item)
                     addFoodToChipGroup(food.name)

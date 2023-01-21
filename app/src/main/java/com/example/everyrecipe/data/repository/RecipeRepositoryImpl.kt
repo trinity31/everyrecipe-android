@@ -7,13 +7,15 @@ import com.example.everyrecipe.data.model.Procedure
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.data.param.req.ReqParamSearchRecipe
 import com.example.everyrecipe.data.param.res.RecommendRecipeOutput
+import com.example.everyrecipe.data.repository.dataSource.BookmarkLocalDataSource
 import com.example.everyrecipe.data.repository.dataSource.RecipeRemoteDataSource
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.domain.repository.RecipeRepository
 import com.google.gson.Gson
 
 class RecipeRepositoryImpl(
-    private val recipeRemoteDataSource: RecipeRemoteDataSource
+    private val recipeRemoteDataSource: RecipeRemoteDataSource,
+    private val bookmarkLocalDataSource: BookmarkLocalDataSource
 ): RecipeRepository {
     override suspend fun getRecommendedRecipes(reqParam: ReqParamSearchRecipe): Resource<List<Recipe>> {
         return responceToResource(recipeRemoteDataSource.getRecommendedRecipes(reqParam.getParamMap()))
@@ -34,15 +36,16 @@ class RecipeRepositoryImpl(
     }
 
     override suspend fun getBookmarkedRecipes(): Resource<List<Recipe>> {
-        TODO("Not yet implemented")
+        val items = bookmarkLocalDataSource.getBookmarks()
+        return Resource.Success(items)
     }
 
     override suspend fun saveRecipeToBookmark(recipe: Recipe) {
-        TODO("Not yet implemented")
+        bookmarkLocalDataSource.saveBookmarkToDB(recipe)
     }
 
     override suspend fun deleteRecipeFromBookmark(recipe: Recipe) {
-        TODO("Not yet implemented")
+        bookmarkLocalDataSource.removeBookmarkFromDB(recipe)
     }
 
     override suspend fun getRecipeIngredients(recipeId: String): Resource<List<Ingredient>> {

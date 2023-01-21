@@ -20,6 +20,6 @@ class FreezerRepositoryImpl(
     }
 
     override suspend fun removeFreezerItems(items: List<FreezerItem>) {
-        val response = freezerLocalDataSource.removeFreezerItemsToDB(items)
+        freezerLocalDataSource.removeFreezerItemsToDB(items)
     }
 }

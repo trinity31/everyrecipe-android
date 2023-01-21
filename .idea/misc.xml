@@ -15,7 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_vegoption.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/recipe_list_item.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/recipe_list_item.xml" value="0.25" />
       </map>
     </option>
   </component>

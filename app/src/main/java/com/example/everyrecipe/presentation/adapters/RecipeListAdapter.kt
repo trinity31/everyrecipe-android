@@ -1,9 +1,11 @@
 package com.example.everyrecipe.presentation.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.datastore.generated.model.Food
 import com.bumptech.glide.Glide
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.databinding.RecipeListItemBinding
@@ -12,6 +14,16 @@ class RecipeListAdapter(
     var recipes: List<Recipe>
 ) : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(){
     private lateinit var context: Context
+
+    private var listener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(recipe: Recipe)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
         context = parent.context
@@ -22,6 +34,10 @@ class RecipeListAdapter(
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe)
+        holder.binding.bookmarkIcon.setOnClickListener {
+            Log.i("RecipeListAdapter", "position: $position clicked")
+            listener?.onItemClick(recipes[position])
+        }
     }
 
     override fun getItemCount(): Int {
