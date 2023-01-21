@@ -40,12 +40,17 @@ class RecipeRepositoryImpl(
         return Resource.Success(items)
     }
 
-    override suspend fun saveRecipeToBookmark(recipe: Recipe) {
-        bookmarkLocalDataSource.saveBookmarkToDB(recipe)
+    override suspend fun getItemById(id: String): Resource<Recipe?> {
+        val item = bookmarkLocalDataSource.getItemById(id)
+        return Resource.Success(item)
     }
 
-    override suspend fun deleteRecipeFromBookmark(recipe: Recipe) {
-        bookmarkLocalDataSource.removeBookmarkFromDB(recipe)
+    override suspend fun saveRecipeToBookmark(recipe: Recipe): Long {
+        return bookmarkLocalDataSource.saveBookmarkToDB(recipe)
+    }
+
+    override suspend fun deleteRecipeFromBookmark(recipe: Recipe): Int {
+        return bookmarkLocalDataSource.removeBookmarkFromDB(recipe)
     }
 
     override suspend fun getRecipeIngredients(recipeId: String): Resource<List<Ingredient>> {

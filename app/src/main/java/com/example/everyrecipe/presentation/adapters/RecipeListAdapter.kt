@@ -4,26 +4,22 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Food
 import com.bumptech.glide.Glide
+import com.example.everyrecipe.R
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.databinding.RecipeListItemBinding
+import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModel
 
 class RecipeListAdapter(
-    var recipes: List<Recipe>
+    var recipes: List<Recipe>,
+    var viewModel: BookmarkViewModel
 ) : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(){
+    private val TAG = RecipeListAdapter::class.java.simpleName
+
     private lateinit var context: Context
-
-    private var listener: OnItemClickListener? = null
-
-    interface OnItemClickListener {
-        fun onItemClick(recipe: Recipe)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener?) {
-        this.listener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
         context = parent.context
@@ -35,8 +31,12 @@ class RecipeListAdapter(
         val recipe = recipes[position]
         holder.bind(recipe)
         holder.binding.bookmarkIcon.setOnClickListener {
-            Log.i("RecipeListAdapter", "position: $position clicked")
-            listener?.onItemClick(recipes[position])
+            Log.i(TAG, "Recipe clicked: $recipe")
+            if(viewModel.isBookmarked(recipe)) {
+                viewModel.removeFromBookmark(recipe)
+            } else {
+                viewModel.addToBookmark(recipe)
+            }
         }
     }
 
@@ -55,6 +55,12 @@ class RecipeListAdapter(
             Glide.with(binding.recipeThumbnail.context)
                 .load(recipe.recipe?.imageUrl)
                 .into(binding.recipeThumbnail)
+
+            val image = if(viewModel.isBookmarked(recipe))
+                ContextCompat.getDrawable(context, R.drawable.ic_baseline_bookmark_24)
+            else ContextCompat.getDrawable(context, R.drawable.ic_baseline_bookmark_border_24)
+
+            binding.bookmarkIcon.setImageDrawable(image)
         }
     }
 

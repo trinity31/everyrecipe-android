@@ -7,15 +7,19 @@ import com.example.everyrecipe.data.repository.dataSource.BookmarkLocalDataSourc
 class BookmarkLocalDataSourceImpl(
     private val bookmarkDAO: BookmarkDAO
 ): BookmarkLocalDataSource {
-    override suspend fun saveBookmarkToDB(item: Recipe) {
-        bookmarkDAO.insert(item)
+    override suspend fun saveBookmarkToDB(item: Recipe): Long {
+        return bookmarkDAO.insert(item)
     }
 
-    override suspend fun removeBookmarkFromDB(item: Recipe) {
-        bookmarkDAO.delete(item)
+    override suspend fun removeBookmarkFromDB(item: Recipe): Int {
+        return bookmarkDAO.delete(item)
     }
 
     override suspend fun getBookmarks(): List<Recipe> {
         return bookmarkDAO.getAllItems()
+    }
+
+    override suspend fun getItemById(id: String): Recipe? {
+        return bookmarkDAO.getItemById(id)
     }
 }

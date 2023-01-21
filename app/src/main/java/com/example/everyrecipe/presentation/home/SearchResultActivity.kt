@@ -46,17 +46,6 @@ class SearchResultActivity : AppCompatActivity() {
         initObserve()
     }
 
-    private fun initObserve() {
-        viewModel.bookmarks.observe(this) {
-            when(it) {
-                is Resource.Success -> {
-                    Log.i(TAG, "Fetched Bookmarks.")
-                }
-                else -> {}
-            }
-        }
-    }
-
     private fun initView() {
         recipeList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             intent.getSerializableExtra("recipe_list", RecipeList::class.java)!!
@@ -72,21 +61,30 @@ class SearchResultActivity : AppCompatActivity() {
             it.setDisplayHomeAsUpEnabled(true)
         }
 
-        recipeListAdapter = RecipeListAdapter(recipes)
+        recipeListAdapter = RecipeListAdapter(recipes, viewModel)
         binding.recyclerView.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(this@SearchResultActivity)
         }
-        recipeListAdapter.setOnItemClickListener(object: RecipeListAdapter.OnItemClickListener {
-            override fun onItemClick(recipe: Recipe) {
-                Log.i(TAG, "Recipe clicked: $recipe")
-                //Add or Remve Bookmark
-            }
-        })
     }
 
     private fun initData() {
         viewModel.getBookmarkedItems()
+    }
+
+    private fun initObserve() {
+        viewModel.bookmarks.observe(this) {
+            when(it) {
+                is Resource.Success -> {
+                    Log.i(TAG, "Fetched Bookmarks.")
+                    recipeListAdapter.notifyDataSetChanged()
+                }
+                else -> {}
+            }
+        }
+        viewModel.bookmark_result.observe(this) {
+            viewModel.getBookmarkedItems()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

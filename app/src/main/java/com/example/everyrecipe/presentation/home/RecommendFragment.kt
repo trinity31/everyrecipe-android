@@ -14,9 +14,7 @@ import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.databinding.FragmentRecommendBinding
 import com.example.everyrecipe.presentation.adapters.RecipeListAdapter
-import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
-import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
-import com.example.everyrecipe.presentation.viewmodel.RecommendViewModel
+import com.example.everyrecipe.presentation.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,6 +25,10 @@ class RecommendFragment : Fragment() {
     @Inject
     lateinit var factory: FreezerViewModelFactory
     lateinit var freezerViewModel: FreezerViewModel
+
+    @Inject
+    lateinit var bookmarkFactory: BookmarkViewModelFactory
+    lateinit var bookmarkViewModel: BookmarkViewModel
 
     private val viewModel: RecommendViewModel by viewModels()
 
@@ -49,13 +51,16 @@ class RecommendFragment : Fragment() {
         freezerViewModel = ViewModelProvider(this, factory)
             .get(FreezerViewModel::class.java)
 
+        bookmarkViewModel = ViewModelProvider(this, bookmarkFactory)
+            .get(BookmarkViewModel::class.java)
+
         initView()
         initData()
         initObserve()
     }
 
     private fun initView() {
-        recipeListAdapter = RecipeListAdapter(listOf())
+        recipeListAdapter = RecipeListAdapter(listOf(), viewModel = bookmarkViewModel)
         binding.recommendRv.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -64,6 +69,7 @@ class RecommendFragment : Fragment() {
 
     private fun initData() {
         freezerViewModel.getFreezerItems()
+        bookmarkViewModel.getBookmarkedItems()
     }
 
     private fun initObserve() {
@@ -97,6 +103,20 @@ class RecommendFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }
+        }
+
+        bookmarkViewModel.bookmarks.observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Success -> {
+                    Log.i(TAG, "Fetched Bookmarks.")
+                    recipeListAdapter.notifyDataSetChanged()
+                }
+                else -> {}
+            }
+        }
+
+        bookmarkViewModel.bookmark_result.observe(viewLifecycleOwner) {
+            bookmarkViewModel.getBookmarkedItems()
         }
     }
 

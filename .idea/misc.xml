@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bookmark_image_selector.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/green_outline_box.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/image_placeholder.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/search_view_background.xml" value="0.1" />
