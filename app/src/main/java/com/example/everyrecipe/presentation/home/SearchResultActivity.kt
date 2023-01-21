@@ -5,15 +5,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.everyrecipe.R
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.data.model.RecipeList
+import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.ActivitySearchResultBinding
 import com.example.everyrecipe.presentation.adapters.RecipeListAdapter
+import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModel
+import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchResultActivity : AppCompatActivity() {
     private val TAG = SearchResultActivity::class.java.simpleName
+
+    @Inject
+    lateinit var factory: BookmarkViewModelFactory
+    lateinit var viewModel: BookmarkViewModel
 
     private lateinit var binding: ActivitySearchResultBinding
 
@@ -27,6 +38,26 @@ class SearchResultActivity : AppCompatActivity() {
         binding = ActivitySearchResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel = ViewModelProvider(this, factory)
+            .get(BookmarkViewModel::class.java)
+
+        initView()
+        initData()
+        initObserve()
+    }
+
+    private fun initObserve() {
+        viewModel.bookmarks.observe(this) {
+            when(it) {
+                is Resource.Success -> {
+                    Log.i(TAG, "Fetched Bookmarks.")
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun initView() {
         recipeList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             intent.getSerializableExtra("recipe_list", RecipeList::class.java)!!
         else
@@ -52,6 +83,10 @@ class SearchResultActivity : AppCompatActivity() {
                 //Add or Remve Bookmark
             }
         })
+    }
+
+    private fun initData() {
+        viewModel.getBookmarkedItems()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

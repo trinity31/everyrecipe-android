@@ -1,5 +1,7 @@
 package com.example.everyrecipe.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
 data class RecipeInfo(

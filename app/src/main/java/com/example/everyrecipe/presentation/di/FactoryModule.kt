@@ -3,6 +3,8 @@ package com.example.everyrecipe.presentation.di
 import android.app.Application
 import com.example.everyrecipe.domain.repository.FoodRepository
 import com.example.everyrecipe.domain.repository.FreezerRepository
+import com.example.everyrecipe.domain.repository.RecipeRepository
+import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModelFactory
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -15,7 +17,7 @@ import javax.inject.Singleton
 class FactoryModule {
     @Singleton
     @Provides
-    fun provideNewsViewModelFactory(
+    fun provideFreezerViewModelFactory(
         application: Application,
         foodRepository: FoodRepository,
         freezerRepository: FreezerRepository
@@ -27,4 +29,15 @@ class FactoryModule {
         )
     }
 
+    @Singleton
+    @Provides
+    fun provideBookmarkViewModelFactory(
+        application: Application,
+        recipeRepository: RecipeRepository
+    ): BookmarkViewModelFactory {
+        return BookmarkViewModelFactory(
+            application,
+            recipeRepository
+        )
+    }
 }

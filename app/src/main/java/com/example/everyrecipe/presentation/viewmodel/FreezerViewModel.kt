@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FreezerViewModel constructor(
-    private val app: Application,
+    app: Application,
     private val foodRepository: FoodRepository,
     private val freezerRepository: FreezerRepository
 ) : AndroidViewModel(app) {
