@@ -1,27 +1,28 @@
 package com.example.everyrecipe.data.repository
 
 import com.amplifyframework.api.rest.RestResponse
-import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.data.model.Ingredient
 import com.example.everyrecipe.data.model.Procedure
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.data.param.req.ReqParamSearchRecipe
 import com.example.everyrecipe.data.param.res.RecommendRecipeOutput
+import com.example.everyrecipe.data.param.res.openapi.IngResponse
 import com.example.everyrecipe.data.repository.dataSource.BookmarkLocalDataSource
 import com.example.everyrecipe.data.repository.dataSource.RecipeRemoteDataSource
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.domain.repository.RecipeRepository
 import com.google.gson.Gson
+import retrofit2.Response
 
 class RecipeRepositoryImpl(
     private val recipeRemoteDataSource: RecipeRemoteDataSource,
     private val bookmarkLocalDataSource: BookmarkLocalDataSource
 ): RecipeRepository {
     override suspend fun getRecommendedRecipes(reqParam: ReqParamSearchRecipe): Resource<List<Recipe>> {
-        return responceToResource(recipeRemoteDataSource.getRecommendedRecipes(reqParam.getParamMap()))
+        return responseToResource(recipeRemoteDataSource.getRecommendedRecipes(reqParam.getParamMap()))
     }
 
-    private fun responceToResource(response: RestResponse?): Resource<List<Recipe>> {
+    private fun responseToResource(response: RestResponse?): Resource<List<Recipe>> {
         val recipeOutput = Gson().fromJson(response?.data?.asString(), RecommendRecipeOutput::class.java)
 
         return if(recipeOutput.result == "success") {
@@ -32,7 +33,7 @@ class RecipeRepositoryImpl(
     }
 
     override suspend fun getSearchedRecipes(reqParam: ReqParamSearchRecipe): Resource<List<Recipe>> {
-        return responceToResource(recipeRemoteDataSource.getSearchedRecipes(reqParam.getParamMap()))
+        return responseToResource(recipeRemoteDataSource.getSearchedRecipes(reqParam.getParamMap()))
     }
 
     override suspend fun getBookmarkedRecipes(): Resource<List<Recipe>> {
@@ -54,10 +55,25 @@ class RecipeRepositoryImpl(
     }
 
     override suspend fun getRecipeIngredients(recipeId: String): Resource<List<Ingredient>> {
-        TODO("Not yet implemented")
+        val response = recipeRemoteDataSource.getRecipeIngredients(recipeId)
+
+        if(response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it.Grid_20150827000000000227_1.row)
+            }
+        }
+        return Resource.Error(response.message())
     }
 
     override suspend fun getRecipeProcedures(recipeId: String): Resource<List<Procedure>> {
-        TODO("Not yet implemented")
+        val response = recipeRemoteDataSource.getRecipeProcedures(recipeId)
+
+        if(response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it.Grid_20150827000000000228_1.row)
+            }
+        }
+        return Resource.Error(response.message())
     }
+
 }
