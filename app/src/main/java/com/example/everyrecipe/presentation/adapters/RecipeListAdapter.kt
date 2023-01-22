@@ -1,6 +1,7 @@
 package com.example.everyrecipe.presentation.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.everyrecipe.R
 import com.example.everyrecipe.data.model.Recipe
 import com.example.everyrecipe.databinding.RecipeListItemBinding
+import com.example.everyrecipe.presentation.home.DetailActivity
 import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModel
 
 class RecipeListAdapter(
@@ -31,12 +33,20 @@ class RecipeListAdapter(
         val recipe = recipes[position]
         holder.bind(recipe)
         holder.binding.bookmarkIcon.setOnClickListener {
-            Log.i(TAG, "Recipe clicked: $recipe")
             if(viewModel.isBookmarked(recipe)) {
                 viewModel.removeFromBookmark(recipe)
             } else {
                 viewModel.addToBookmark(recipe)
             }
+        }
+        holder.binding.container.setOnClickListener {
+            Log.i(TAG, "Recipe clicked: $recipe")
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("title", recipe.recipe?.name)
+            intent.putExtra("id", recipe.recipe?.id)
+            intent.putExtra("imageUrl", recipe.recipe?.imageUrl)
+            intent.putExtra("description", recipe.recipe?.description)
+            context.startActivity(intent)
         }
     }
 

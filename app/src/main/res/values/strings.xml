@@ -10,6 +10,8 @@
     <string name="previous">이전</string>
     <string name="skip">건너뛰기</string>
     <string name="search">검색</string>
+    <string name="ingredient">재료</string>
+    <string name="procedure">과정</string>
     <string name="search_result">검색 결과</string>
     <string name="search_in_freezer">냉장고 재료에서 선택</string>
     <string name="vegoption_description">채삭을 하신다면 채식 단계를 선택해 주세요. 이 데이타를 기반으로 재료를 선택할 수 있으며 검색된 레시피는 채식이 아닐 수도 있습니다.</string>

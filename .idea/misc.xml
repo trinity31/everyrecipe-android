@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/green_outline_box.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/image_placeholder.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/search_view_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_search_result.xml" value="0.16802536231884058" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.25" />
