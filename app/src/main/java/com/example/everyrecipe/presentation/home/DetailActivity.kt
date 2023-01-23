@@ -1,16 +1,21 @@
 package com.example.everyrecipe.presentation.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
-import com.example.everyrecipe.R
+import com.example.everyrecipe.data.model.Ingredient
+import com.example.everyrecipe.data.model.IngredientList
+import com.example.everyrecipe.data.model.ProcedureList
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.ActivityDetailBinding
 import com.example.everyrecipe.presentation.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
+
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -21,6 +26,9 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModels()
 
     private lateinit var recipeId: String
+
+    private lateinit var ingredientsFragment: IngredientsFragment
+    private lateinit var proceduresFragment: ProceduresFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +52,17 @@ class DetailActivity : AppCompatActivity() {
 
         binding.tvDetail.text = intent.getStringExtra("description")
 
-        recipeId = intent.getStringExtra("id") ?: ""
+        binding.btnIngredient.setOnClickListener {
+            showIngredients()
+        }
+        binding.btnProcedure.setOnClickListener {
+            showProcedures()
+        }
     }
 
     private fun initData() {
+        recipeId = intent.getStringExtra("id") ?: ""
+
         viewModel.getIngredients(recipeId)
         viewModel.getProcedures(recipeId)
     }
@@ -57,6 +72,12 @@ class DetailActivity : AppCompatActivity() {
             when(it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Fetched Ingredirents.")
+                    it.data?.let {
+                        if(!::ingredientsFragment.isInitialized) {
+                            ingredientsFragment = IngredientsFragment.newInstance(IngredientList(it))
+                        }
+                        showIngredients()
+                    }
                 }
                 else -> {}
             }
@@ -65,12 +86,30 @@ class DetailActivity : AppCompatActivity() {
             when(it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Fetched Procedures.")
-                    it.data?.forEach {
-                        Log.i(TAG, "${it}")
+                    it.data?.let {
+                        if(!::proceduresFragment.isInitialized) {
+                            proceduresFragment = ProceduresFragment.newInstance(ProcedureList(it))
+                        }
                     }
                 }
                 else -> {}
             }
+        }
+    }
+
+    private fun showIngredients() {
+        if(::ingredientsFragment.isInitialized) {
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(com.example.everyrecipe.R.id.fragment_container, ingredientsFragment)
+            transaction.commit()
+        }
+    }
+
+    private fun showProcedures() {
+        if(::proceduresFragment.isInitialized) {
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(com.example.everyrecipe.R.id.fragment_container, proceduresFragment)
+            transaction.commit()
         }
     }
 

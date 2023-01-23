@@ -7,7 +7,7 @@
         <entry key="app/src/main/res/drawable/green_outline_box.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/image_placeholder.xml" value="0.145" />
         <entry key="app/src/main/res/drawable/search_view_background.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_search_result.xml" value="0.16802536231884058" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.25" />
@@ -15,9 +15,13 @@
         <entry key="app/src/main/res/layout/food_suggest_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_bookmark.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_freezer.xml" value="0.1793478260869565" />
+        <entry key="app/src/main/res/layout/fragment_ingredients.xml" value="0.10309017223910841" />
+        <entry key="app/src/main/res/layout/fragment_procedures.xml" value="0.10309017223910841" />
         <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_vegoption.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/ingredient_list_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/procedure_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recipe_list_item.xml" value="0.25" />
       </map>
     </option>
