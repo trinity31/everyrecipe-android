@@ -1,11 +1,15 @@
 package com.example.everyrecipe.presentation.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Food
+import com.example.everyrecipe.R
 import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.databinding.AdapterFreezerCategoryItemBinding
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
@@ -41,6 +45,9 @@ class FreezerCategoryAdapter(
             foods.forEach { food ->
                 val chip = Chip(context)
                 chip.text = food.name
+                chip.textSize = 20.0f
+                chip.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+                chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.mid_green)))
                 binding.chipGroup.addView(chip)
                 chip.isCheckable = true
                 chip.isChecked = viewModel.checkFoodExistsInFreezer(food.name)
