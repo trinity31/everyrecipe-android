@@ -100,12 +100,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun initData() {
-        if(searchViewModel.foods.value is Resource.Success) {
-            Log.i(TAG, "Already has food. ${searchViewModel.foods.value}")
-        } else {
-            searchViewModel.getAllFoods()
-        }
-
+        searchViewModel.getAllFoods()
         freezerViewModel.getFreezerItems()
     }
 

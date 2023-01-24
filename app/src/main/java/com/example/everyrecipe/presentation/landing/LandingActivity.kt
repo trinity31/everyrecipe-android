@@ -19,11 +19,11 @@ import javax.inject.Inject
 class LandingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLandingBinding
 
-    //private val viewModel: LandingViewModel by viewModels()
+    private val viewModel: LandingViewModel by viewModels()
 
-    @Inject
-    lateinit var searchFactory: SearchViewModelFactory
-    lateinit var searchViewModel: SearchViewModel
+//    @Inject
+//    lateinit var searchFactory: SearchViewModelFactory
+//    lateinit var searchViewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +36,15 @@ class LandingActivity : AppCompatActivity() {
             finish()
         }
 
-        searchViewModel = ViewModelProvider(this, searchFactory)
-            .get(SearchViewModel::class.java)
-
-        searchViewModel.getAllFoods()
+//        searchViewModel = ViewModelProvider(this, searchFactory)
+//            .get(SearchViewModel::class.java)
+//
+//        searchViewModel.getAllFoods()
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                //viewModel.isLoading.value
-                searchViewModel.foods.value is Resource.Loading
+                viewModel.isLoading.value
+                //searchViewModel.foods.value is Resource.Loading
             }
         }
     }
