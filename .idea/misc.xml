@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_search_result.xml" value="0.16802536231884058" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.11548913043478261" />
         <entry key="app/src/main/res/layout/content_setup.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/food_suggest_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_bookmark.xml" value="0.1" />
@@ -26,6 +27,7 @@
         <entry key="app/src/main/res/layout/ingredient_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/procedure_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recipe_list_item.xml" value="0.25" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>
