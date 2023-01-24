@@ -6,6 +6,7 @@ import com.example.everyrecipe.domain.repository.FreezerRepository
 import com.example.everyrecipe.domain.repository.RecipeRepository
 import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModelFactory
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
+import com.example.everyrecipe.presentation.viewmodel.SearchViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +38,20 @@ class FactoryModule {
     ): BookmarkViewModelFactory {
         return BookmarkViewModelFactory(
             application,
+            recipeRepository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchViewModelFactory(
+        application: Application,
+        foodRepository: FoodRepository,
+        recipeRepository: RecipeRepository
+    ): SearchViewModelFactory {
+        return SearchViewModelFactory(
+            application,
+            foodRepository,
             recipeRepository
         )
     }

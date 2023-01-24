@@ -1,6 +1,8 @@
 package com.example.everyrecipe.presentation.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,11 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel constructor(
+    app: Application,
     private val foodRepository: FoodRepository,
     private val recipeRepository: RecipeRepository
-): ViewModel() {
+): AndroidViewModel(app) {
     private val TAG = SearchViewModel::class.java.simpleName
 
     //전체 음식 목록
@@ -36,6 +38,7 @@ class SearchViewModel @Inject constructor(
         foods.postValue(Resource.Loading())
         try {
             val response = foodRepository.getAllFoods()
+            Log.i(TAG, "Successfully fetched all foods.")
             foods.postValue(response)
         } catch (e: Exception) {
             Log.i(TAG, "Faild to get food list. ${e.message}")

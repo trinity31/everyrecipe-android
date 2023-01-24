@@ -22,6 +22,7 @@ import com.example.everyrecipe.presentation.adapters.FoodSuggestAdapter
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import com.example.everyrecipe.presentation.viewmodel.SearchViewModel
+import com.example.everyrecipe.presentation.viewmodel.SearchViewModelFactory
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
@@ -32,10 +33,12 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     private val TAG = SearchFragment::class.java.simpleName
 
     @Inject
-    lateinit var factory: FreezerViewModelFactory
+    lateinit var freezerFactory: FreezerViewModelFactory
     lateinit var freezerViewModel: FreezerViewModel
 
-    private val viewModel: SearchViewModel by viewModels()
+    @Inject
+    lateinit var searchFactory: SearchViewModelFactory
+    lateinit var searchViewModel: SearchViewModel
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -53,8 +56,11 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        freezerViewModel = ViewModelProvider(this, factory)
+        freezerViewModel = ViewModelProvider(this, freezerFactory)
             .get(FreezerViewModel::class.java)
+
+        searchViewModel = ViewModelProvider(this, searchFactory)
+            .get(SearchViewModel::class.java)
 
         initView()
         initData()
@@ -71,7 +77,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             foodSuggestAdapter.setOnItemClickListener(object: FoodSuggestAdapter.OnItemClickListener {
                 override fun onItemClick(food: Food) {
                     val item = FreezerItem(food.id, food.category.id, food.name)
-                    viewModel.addToSearchFoods(item)
+                    searchViewModel.addToSearchFoods(item)
                     addFoodToChipGroup(food.name)
                     binding.searchView.setQuery("", false)
                     binding.searchView.isIconified = true
@@ -83,23 +89,28 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             override fun onClose(): Boolean {
                 Log.i(TAG, "SearchView closed.")
                 binding.suggestRv.visibility = View.INVISIBLE
-                viewModel.cancelSearchFoods()
+                searchViewModel.cancelSearchFoods()
                 return true
             }
         })
 
         binding.searchBtn.setOnClickListener {
-            viewModel.searchRecipes()
+            searchViewModel.searchRecipes()
         }
     }
 
     private fun initData() {
-        viewModel.getAllFoods()
+        if(searchViewModel.foods.value is Resource.Success) {
+            Log.i(TAG, "Already has food. ${searchViewModel.foods.value}")
+        } else {
+            searchViewModel.getAllFoods()
+        }
+
         freezerViewModel.getFreezerItems()
     }
 
     private fun initObserve() {
-        viewModel.foods.observe(viewLifecycleOwner) {
+        searchViewModel.foods.observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.INVISIBLE
@@ -114,7 +125,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
 
-        viewModel.filteredFoods.observe(viewLifecycleOwner) {
+        searchViewModel.filteredFoods.observe(viewLifecycleOwner) {
             if(it.size > 0) {
                 foodSuggestAdapter.foods = it
                 foodSuggestAdapter.notifyDataSetChanged()
@@ -136,7 +147,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
 
-        viewModel.recipes.observe(viewLifecycleOwner) {
+        searchViewModel.recipes.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched ${it.data?.size} recipes.")
@@ -170,7 +181,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         chip.isCloseIconVisible = false
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked) {
-               viewModel.addToSearchFoods(item)
+                searchViewModel.addToSearchFoods(item)
                 addFoodToChipGroup(item.name)
             } else {
                 removeFromSearchFood(item.name)
@@ -188,7 +199,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun removeFromSearchFood(name: String) {
-        val index = viewModel.removeFromSearchFoods(name)
+        val index = searchViewModel.removeFromSearchFoods(name)
         if(index != -1) {
             binding.foodChip.removeView(binding.foodChip.getChildAt(index))
         }
@@ -201,7 +212,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if(!newText.isNullOrEmpty()) {
-            viewModel.searchFood(newText)
+            searchViewModel.searchFood(newText)
         }
         return true
     }

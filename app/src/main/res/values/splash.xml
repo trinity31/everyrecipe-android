@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.EveryRecipe.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.EveryRecipe.NoActionBar</item>
+    </style>
+</resources>
