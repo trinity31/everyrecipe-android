@@ -10,5 +10,6 @@ data class FreezerItem(
     @PrimaryKey(autoGenerate = false)
     val id: String,
     val categoryID: String,
-    val name: String
+    val name: String,
+    val exist: Boolean = false
 )

@@ -7,8 +7,8 @@ import com.example.everyrecipe.data.repository.dataSource.FreezerLocalDataSource
 import kotlinx.coroutines.flow.Flow
 
 class FreezerLocalDataSourceImpl(private val freezerDAO: FreezerDAO): FreezerLocalDataSource {
-    override suspend fun saveFreezerItemsToDB(items: List<FreezerItem>) {
-        freezerDAO.insertMultipleItems(items)
+    override suspend fun saveFreezerItemsToDB(items: List<FreezerItem>): Boolean {
+        return freezerDAO.insertMultipleItems(items)
     }
 
     override suspend fun removeFreezerItemsToDB(items: List<FreezerItem>) {
@@ -17,5 +17,17 @@ class FreezerLocalDataSourceImpl(private val freezerDAO: FreezerDAO): FreezerLoc
 
     override suspend fun getFreezerItems(): List<FreezerItem> {
         return freezerDAO.getAllItems()
+    }
+
+    override suspend fun getItemsByCategory(categoryId: String): List<FreezerItem> {
+        return freezerDAO.getItemsByCategory(categoryId)
+    }
+
+    override suspend fun updateFreezerItem(item: FreezerItem): Boolean {
+        return freezerDAO.update(item) > 0
+    }
+
+    override suspend fun getFreezerExistingItems(): List<FreezerItem> {
+        return freezerDAO.getItemsExisting()
     }
 }

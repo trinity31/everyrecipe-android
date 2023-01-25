@@ -69,7 +69,6 @@ class FreezerFragment : Fragment() {
 
     private fun initData() {
         viewModel.getCategories()
-        viewModel.getFreezerItems()
     }
 
     private fun initObserve() {
@@ -102,16 +101,16 @@ class FreezerFragment : Fragment() {
             }
         }
 
-        viewModel.foods.observe(viewLifecycleOwner) {
+        viewModel.items.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.INVISIBLE
-                    val foods = it.data
-                    if(!foods.isNullOrEmpty()) {
+                    val freezerItems = it.data
+                    if(!freezerItems.isNullOrEmpty()) {
                         //Log.i(TAG, "id: ${foods.get(0).category.id}, name: ${foods.get(0).category.name} ")
                         val adapter = concatAdapter.adapters[currentIndex]
                         if(adapter != null) {
-                            (adapter as FreezerCategoryAdapter).foods = foods
+                            (adapter as FreezerCategoryAdapter).items = freezerItems
                             adapter.notifyItemChanged(0)
                             if(categories.size > currentIndex + 1) {
                                 currentIndex++
@@ -124,21 +123,11 @@ class FreezerFragment : Fragment() {
                 is Resource.Loading -> {}
             }
         }
-
-        viewModel.freezerItems.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    Log.i(TAG, "Successfully fetched freezer items.")
-                }
-                is Resource.Error -> {}
-                is Resource.Loading -> {}
-            }
-        }
     }
 
     private fun setAdapters(position: Int) {
         concatAdapter.addAdapter(FreezerCategoryAdapter(categories[position].name, listOf(), viewModel))
-        viewModel.getFoodsByCategory(categories[position].id)
+        viewModel.getItemsByCategory(categories[position].id)
 
         if(position == 0) {
             binding.progressBar.visibility = View.VISIBLE

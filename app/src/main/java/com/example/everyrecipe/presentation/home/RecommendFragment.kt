@@ -68,12 +68,12 @@ class RecommendFragment : Fragment() {
     }
 
     private fun initData() {
-        freezerViewModel.getFreezerItems()
+        freezerViewModel.getFreezerExistingItems()
         bookmarkViewModel.getBookmarkedItems()
     }
 
     private fun initObserve() {
-        freezerViewModel.freezerItems.observe(viewLifecycleOwner) {
+        freezerViewModel.existingItems.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched.${it.data?.size} items in the freezer.")

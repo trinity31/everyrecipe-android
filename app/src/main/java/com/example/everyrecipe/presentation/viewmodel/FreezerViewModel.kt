@@ -28,13 +28,15 @@ class FreezerViewModel constructor(
 ) : AndroidViewModel(app) {
     private val TAG = FreezerViewModel::class.java.simpleName
 
-    var foods: MutableLiveData<Resource<List<Food>>> = MutableLiveData()
+    var items: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
     var categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
-    var freezerItems: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
+    //var freezerItems: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
+    var existingItems: MutableLiveData<Resource<List<FreezerItem>>> = MutableLiveData()
 
     fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         categories.postValue(Resource.Loading())
         try {
+            Log.i(TAG, "Start fetching categories.")
             val response = foodRepository.getCategories()
             Log.i(TAG, "Fetched Categories: ${response.data}")
             categories.postValue(response)
@@ -43,14 +45,15 @@ class FreezerViewModel constructor(
         }
     }
 
-    fun getFoodsByCategory(categoryId: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun getItemsByCategory(categoryId: String) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val response = foodRepository.getFoodsByCategory(categoryId)
+            //val response = foodRepository.getFoodsByCategory(categoryId)
+            val response = freezerRepository.getItemsByCategory(categoryId)
             //Log.i(TAG, "Fetched Foods for category id ${categoryId}")
             //Log.i(TAG, "${response.data}")
-            foods.postValue(response)
+            items.postValue(response)
         } catch(e: Exception) {
-            foods.postValue(Resource.Error(e.message.toString()))
+            items.postValue(Resource.Error(e.message.toString()))
         }
     }
 
@@ -64,16 +67,27 @@ class FreezerViewModel constructor(
         freezerRepository.removeFreezerItems(items)
     }
 
-    fun getFreezerItems() = viewModelScope.launch(Dispatchers.IO) {
+//    fun getFreezerItems() = viewModelScope.launch(Dispatchers.IO) {
+//        try {
+//            val response = freezerRepository.getFreezerItems()
+//            freezerItems.postValue(response)
+//        } catch(e: Exception) {
+//            freezerItems.postValue(Resource.Error(e.message.toString()))
+//        }
+//    }
+
+    fun getFreezerExistingItems() = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val response = freezerRepository.getFreezerItems()
-            freezerItems.postValue(response)
+            val response = freezerRepository.getFreezerExistingItems()
+            existingItems.postValue(response)
         } catch(e: Exception) {
-            freezerItems.postValue(Resource.Error(e.message.toString()))
+            existingItems.postValue(Resource.Error(e.message.toString()))
         }
     }
 
-    fun checkFoodExistsInFreezer(name: String): Boolean {
-        return freezerItems.value?.data?.find { it.name == name } != null
+    fun updateFreezerItem(freezerItem: FreezerItem, insert: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "Insert ${freezerItem.name} to the Fridge.")
+        val result = freezerRepository.updateFreezerItem(freezerItem.copy(exist = insert))
+        Log.i(TAG, "Update success? ${result}")
     }
 }

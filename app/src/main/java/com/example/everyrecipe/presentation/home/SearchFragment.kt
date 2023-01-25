@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,9 +78,9 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             foodSuggestAdapter.setOnItemClickListener(object: FoodSuggestAdapter.OnItemClickListener {
-                override fun onItemClick(food: Food) {
-                    val item = FreezerItem(food.id, food.category.id, food.name)
-                    searchViewModel.addToSearchFoods(item)
+                override fun onItemClick(food: FreezerItem) {
+                   // val item = FreezerItem(food.id, food.categoryId, food.name)
+                    searchViewModel.addToSearchFoods(food)
                     addFoodToChipGroup(food.name)
                     binding.searchView.setQuery("", false)
                     binding.searchView.isIconified = true
@@ -101,7 +104,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun initData() {
         searchViewModel.getAllFoods()
-        freezerViewModel.getFreezerItems()
+        freezerViewModel.getFreezerExistingItems()
     }
 
     private fun initObserve() {
@@ -128,7 +131,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
 
-        freezerViewModel.freezerItems.observe(viewLifecycleOwner) {
+        freezerViewModel.existingItems.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched.${it.data?.size} items in the freezer.")

@@ -17,7 +17,7 @@ import com.google.android.material.chip.Chip
 
 class FreezerCategoryAdapter(
     var categoryName: String,
-    var foods: List<Food>,
+    var items: List<FreezerItem>,
     var viewModel: FreezerViewModel
 ) : RecyclerView.Adapter<FreezerCategoryAdapter.CategoryViewHolder>() {
     private lateinit var context: Context
@@ -42,31 +42,51 @@ class FreezerCategoryAdapter(
         fun bind() {
             binding.tvTitle.text = categoryName
             binding.chipGroup.removeAllViews()
-            foods.forEach { food ->
+            items.forEach { item ->
                 val chip = Chip(context)
-                chip.text = food.name
-                chip.textSize = 20.0f
-                chip.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
-                chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.mid_green)))
+                chip.text = item.name
+
                 binding.chipGroup.addView(chip)
                 chip.isCheckable = true
-                chip.isChecked = viewModel.checkFoodExistsInFreezer(food.name)
-                chip.setOnClickListener {
-                    val index = binding.chipGroup.indexOfChild(it)
-                    Log.i("FreezerCategoryAdapter", "${foods[index].name} clicked, checked: ${chip.isChecked}")
+                chip.isChecked = checkFoodExistsInFreezer(item.name)
+
+                if(chip.isChecked) {
+                    chip.setTextColor(ContextCompat.getColor(context, R.color.surface))
+                    chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blood_orange)))
+                    chip.textSize = 20.0f
+                } else {
+                    chip.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+                    chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_green)))
+                    chip.textSize = 18.0f
                 }
+
+//                chip.setOnClickListener {
+//                    val index = binding.chipGroup.indexOfChild(it)
+//                    Log.i("FreezerCategoryAdapter", "${items[index].name} clicked, checked: ${chip.isChecked}")
+//                }
                 chip.setOnCheckedChangeListener { buttonView, isChecked ->
                     Log.i("FreezerCategoryAdapter", "isChecked: $isChecked, index: ${binding.chipGroup.indexOfChild(chip)}")
-                    val food = foods[binding.chipGroup.indexOfChild(chip)]
-                    val freezerItem = FreezerItem(food.id, food.category.id, food.name)
+                    val freezerItem = items[binding.chipGroup.indexOfChild(chip)]
+                   // val freezerItem = FreezerItem(food.id, food.category.id, food.name)
                     Log.i("FreezerCategoryAdapter", "Add New Freezer Item: $freezerItem")
                     if(isChecked) {
-                        viewModel.setFreezerItems(listOf(freezerItem))
+                        //viewModel.setFreezerItems(listOf(freezerItem))
+                        viewModel.updateFreezerItem(freezerItem, true) //add to the fridge
+                        chip.setTextColor(ContextCompat.getColor(context, R.color.surface))
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blood_orange)))
                     } else {
-                        viewModel.removeFreezerItems(listOf(freezerItem))
+                       // viewModel.removeFreezerItems(listOf(freezerItem))
+                        viewModel.updateFreezerItem(freezerItem, false) //remove from the fridge
+                        chip.setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_green)))
                     }
                 }
             }
         }
+    }
+
+    private fun checkFoodExistsInFreezer(name: String): Boolean {
+        val item = items.find { it.name == name }
+        return item?.exist ?: false
     }
 }

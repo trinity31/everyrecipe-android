@@ -47,12 +47,14 @@ class FactoryModule {
     fun provideSearchViewModelFactory(
         application: Application,
         foodRepository: FoodRepository,
-        recipeRepository: RecipeRepository
+        recipeRepository: RecipeRepository,
+        freezerRepository: FreezerRepository
     ): SearchViewModelFactory {
         return SearchViewModelFactory(
             application,
             foodRepository,
-            recipeRepository
+            recipeRepository,
+            freezerRepository
         )
     }
 }

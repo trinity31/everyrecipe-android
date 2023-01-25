@@ -10,10 +10,11 @@ interface FreezerDAO {
     suspend fun getAllItems(): List<FreezerItem>
 
     @Transaction
-    suspend fun insertMultipleItems(items: List<FreezerItem>) {
+    suspend fun insertMultipleItems(items: List<FreezerItem>): Boolean {
         items.forEach {
             insert(it)
         }
+        return true
     }
 
     @Transaction
@@ -23,9 +24,18 @@ interface FreezerDAO {
         }
     }
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(item: FreezerItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(item: FreezerItem): Long
+
+    @Update
+    suspend fun update(item: FreezerItem): Int
 
     @Delete
-    suspend fun delete(item: FreezerItem)
+    suspend fun delete(item: FreezerItem): Int
+
+    @Query("SELECT * FROM freezerItems WHERE categoryID = :category")
+    suspend fun getItemsByCategory(category: String): List<FreezerItem>
+
+    @Query("SELECT * FROM freezerItems WHERE exist = 1")
+    suspend fun getItemsExisting(): List<FreezerItem>
 }

@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Food
+import com.example.everyrecipe.data.model.FreezerItem
 import com.example.everyrecipe.databinding.FoodSuggestListItemBinding
 
 class FoodSuggestAdapter(
-    var foods: List<Food>
+    var foods: List<FreezerItem>
 ): RecyclerView.Adapter<FoodSuggestAdapter.FoodSuggestViewHolder>() {
     private lateinit var context: Context
     private var listener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(food: Food)
+        fun onItemClick(food: FreezerItem)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
@@ -42,7 +43,7 @@ class FoodSuggestAdapter(
     inner class FoodSuggestViewHolder(
         val binding: FoodSuggestListItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(food: Food) {
+        fun bind(food: FreezerItem) {
             binding.tvTitle.text = food.name
         }
     }
