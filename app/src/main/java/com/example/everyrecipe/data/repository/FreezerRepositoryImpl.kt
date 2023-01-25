@@ -25,7 +25,7 @@ class FreezerRepositoryImpl(
 
     override suspend fun getItemsByCategory(categoryId: String): Resource<List<FreezerItem>> {
         val items = freezerLocalDataSource.getItemsByCategory(categoryId)
-        return Resource.Success(items)
+        return Resource.Success(items.sortedBy { it.name })
     }
 
     override suspend fun updateFreezerItem(item: FreezerItem): Boolean {
