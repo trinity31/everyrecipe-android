@@ -21,10 +21,6 @@ class LandingActivity : AppCompatActivity() {
 
     private val viewModel: LandingViewModel by viewModels()
 
-//    @Inject
-//    lateinit var searchFactory: SearchViewModelFactory
-//    lateinit var searchViewModel: SearchViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLandingBinding.inflate(layoutInflater)
@@ -36,15 +32,9 @@ class LandingActivity : AppCompatActivity() {
             finish()
         }
 
-//        searchViewModel = ViewModelProvider(this, searchFactory)
-//            .get(SearchViewModel::class.java)
-//
-//        searchViewModel.getAllFoods()
-
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 viewModel.isLoading.value
-                //searchViewModel.foods.value is Resource.Loading
             }
         }
     }

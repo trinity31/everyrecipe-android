@@ -35,12 +35,12 @@ class SetupActivity : AppCompatActivity() {
         binding.buttonBottom.setOnClickListener {
             when(navController.currentDestination?.label) {
                  resources.getString(R.string.freezer_fragment_label) -> {
-                     navController.navigate(R.id.action_freezerFragment_to_vegoptionFragment)
+                     val intent = Intent(this, MainActivity::class.java)
+                     startActivity(intent)
+                     finish()
                 }
                 resources.getString(R.string.vegoption_fragment_label) -> {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    navController.navigate(R.id.action_vegoptionFragment_to_freezerFragment)
                 }
             }
         }

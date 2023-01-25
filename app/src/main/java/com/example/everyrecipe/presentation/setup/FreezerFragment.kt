@@ -1,21 +1,20 @@
 package com.example.everyrecipe.presentation.setup
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.Category
-import com.example.everyrecipe.R
 import com.example.everyrecipe.presentation.types.CategoryType
 import com.example.everyrecipe.data.util.Resource
 import com.example.everyrecipe.databinding.FragmentFreezerBinding
 import com.example.everyrecipe.presentation.adapters.FreezerCategoryAdapter
+import com.example.everyrecipe.presentation.types.Constants
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModel
 import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,8 +76,11 @@ class FreezerFragment : Fragment() {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.INVISIBLE
 
+                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    val vegType = sharedPref.getString(Constants.VEGTYPE, Constants.NONE).toString()
+
                     val filteredData = it.data?.filter {
-                        CategoryType.getValue(it.id).isAllowed()
+                        CategoryType.getValue(it.id).isAllowed(vegType)
                     }
 
                     val sortedData = filteredData?.sortedBy {

@@ -26,17 +26,17 @@ enum class CategoryType(val categoryId: String) {
         return categoryId
     }
 
-    fun isAllowed(): Boolean {
+    fun isAllowed(vegType: String): Boolean {
         return when (this) {
             VEG -> true
-            MEAT -> true
-            SEAFOOD -> true
+            MEAT -> (vegType == Constants.NONE)
+            SEAFOOD -> (vegType == Constants.NONE || vegType == Constants.PESCO)
             BEAN -> true
             MUSHROOM -> true
             GRAIN -> false
             POTATO -> true
-            EGG -> true
-            MILK -> true
+            EGG -> (vegType == Constants.NONE || vegType == Constants.PESCO || vegType == Constants.LACTOOVO || vegType == Constants.OVO)
+            MILK -> (vegType == Constants.NONE || vegType == Constants.PESCO || vegType == Constants.LACTOOVO || vegType == Constants.LACTO)
             SEWEED -> true
             POWDER -> false
             FRUIT -> true
