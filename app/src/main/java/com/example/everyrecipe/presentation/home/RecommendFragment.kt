@@ -121,16 +121,16 @@ class RecommendFragment : Fragment() {
 
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.llProgress.visibility = View.INVISIBLE
                 }
-                is Resource.Loading -> {binding.progressBar.visibility = View.VISIBLE}
+                is Resource.Loading -> {binding.llProgress.visibility = View.VISIBLE}
             }
         }
 
         viewModel.recipes.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.llProgress.visibility = View.INVISIBLE
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
                     it.data?.let { recipes ->
                         recipeListAdapter.recipes = recipes
@@ -138,11 +138,11 @@ class RecommendFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.llProgress.visibility = View.INVISIBLE
                     Log.i(TAG, "Failed to fetch recipes. ${it.message}")
                 }
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.llProgress.visibility = View.VISIBLE
                 }
             }
         }
