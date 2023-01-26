@@ -1,5 +1,6 @@
 package com.example.everyrecipe.presentation.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -46,10 +47,23 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             android.R.id.home -> {
-                finish()
-                return true
+                return backPressed()
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return backPressed()
+    }
+
+    override fun onBackPressed() {
+        backPressed()
+    }
+
+    private fun backPressed(): Boolean {
+        setResult(RESULT_OK, Intent())
+        finish()
+        return true
     }
 }

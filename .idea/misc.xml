@@ -21,7 +21,7 @@
         <entry key="app/src/main/res/layout/fragment_freezer.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/fragment_ingredients.xml" value="0.10309017223910841" />
         <entry key="app/src/main/res/layout/fragment_procedures.xml" value="0.10309017223910841" />
-        <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_recommend.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_vegoption.xml" value="0.25" />

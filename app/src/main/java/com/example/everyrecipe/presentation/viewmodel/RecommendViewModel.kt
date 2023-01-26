@@ -26,11 +26,9 @@ class RecommendViewModel constructor(
 
     fun getRecommendedRecipes(freezerItems: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
         val param = ReqParamSearchRecipe(searchItems = freezerItems)
-        Log.i(TAG, "getRecommendedRecipes")
         recipes.postValue(Resource.Loading())
         try {
             val response = recipeRepository.getRecommendedRecipes(param)
-            Log.i(TAG, "response: ${response.data}")
             recipes.postValue(response)
         } catch (e: Exception) {
             recipes.postValue(Resource.Error(e.message.toString()))
