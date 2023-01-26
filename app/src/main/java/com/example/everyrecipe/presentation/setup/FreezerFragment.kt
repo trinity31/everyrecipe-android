@@ -24,14 +24,11 @@ import javax.inject.Inject
 class FreezerFragment : Fragment() {
     private val TAG = FreezerFragment::class.java.simpleName
 
-    //private val viewModel: FreezerViewModel by viewModels()
     @Inject
     lateinit var factory: FreezerViewModelFactory
     lateinit var viewModel: FreezerViewModel
     private var _binding: FragmentFreezerBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val concatAdapter = ConcatAdapter()

@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.let {
+            title = resources.getString(R.string.app_name)
+        }
+
         setUpBottomNavigation()
     }
 
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         searchFragment = SearchFragment()
         bookmarkFragment = BookmarkFragment()
         settingFragment = SettingFragment()
-        
+
         changeFragment(recommendFragment)
 
         binding.bottomNavigationView.setOnItemSelectedListener {

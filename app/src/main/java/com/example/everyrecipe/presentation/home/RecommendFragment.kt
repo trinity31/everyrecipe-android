@@ -30,7 +30,9 @@ class RecommendFragment : Fragment() {
     lateinit var bookmarkFactory: BookmarkViewModelFactory
     lateinit var bookmarkViewModel: BookmarkViewModel
 
-    private val viewModel: RecommendViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: RecommendViewModelFactory
+    lateinit var viewModel: RecommendViewModel
 
     private var _binding: FragmentRecommendBinding? = null
     private val binding get() = _binding!!
@@ -54,6 +56,9 @@ class RecommendFragment : Fragment() {
         bookmarkViewModel = ViewModelProvider(this, bookmarkFactory)
             .get(BookmarkViewModel::class.java)
 
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(RecommendViewModel::class.java)
+
         initView()
         initData()
         initObserve()
@@ -64,6 +69,10 @@ class RecommendFragment : Fragment() {
         binding.recommendRv.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(activity)
+        }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true;
+            initData()
         }
     }
 
@@ -78,11 +87,15 @@ class RecommendFragment : Fragment() {
                 is Resource.Success -> {
                     Log.i(TAG, "Successfully fetched.${it.data?.size} items in the freezer.")
                     it.data?.let {
+                        Log.i(TAG, "Get recipes.")
                         viewModel.getRecommendedRecipes(it)
+                        binding.swipeRefreshLayout.isRefreshing = false;
                     }
                 }
-                is Resource.Error -> {}
-                is Resource.Loading -> {}
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                }
+                is Resource.Loading -> {binding.progressBar.visibility = View.VISIBLE}
             }
         }
 
@@ -98,6 +111,7 @@ class RecommendFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.INVISIBLE
+                    Log.i(TAG, "Failed to fetch recipes. ${it.message}")
                 }
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE

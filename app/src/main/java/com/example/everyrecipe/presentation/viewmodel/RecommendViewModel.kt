@@ -1,5 +1,8 @@
 package com.example.everyrecipe.presentation.viewmodel
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,19 +16,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class RecommendViewModel @Inject constructor(
+class RecommendViewModel constructor(
+    private val app: Application,
     private val recipeRepository: RecipeRepository
-): ViewModel(){
+): AndroidViewModel(app){
     private val TAG = RecommendViewModel::class.java.simpleName
 
     var recipes: MutableLiveData<Resource<List<Recipe>>> = MutableLiveData()
 
     fun getRecommendedRecipes(freezerItems: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
         val param = ReqParamSearchRecipe(searchItems = freezerItems)
+        Log.i(TAG, "getRecommendedRecipes")
         recipes.postValue(Resource.Loading())
         try {
             val response = recipeRepository.getRecommendedRecipes(param)
+            Log.i(TAG, "response: ${response.data}")
             recipes.postValue(response)
         } catch (e: Exception) {
             recipes.postValue(Resource.Error(e.message.toString()))

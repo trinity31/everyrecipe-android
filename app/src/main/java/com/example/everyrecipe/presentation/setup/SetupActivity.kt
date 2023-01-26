@@ -9,9 +9,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.preference.PreferenceManager
 import com.example.everyrecipe.R
 import com.example.everyrecipe.databinding.ActivitySetupBinding
 import com.example.everyrecipe.presentation.home.MainActivity
+import com.example.everyrecipe.presentation.types.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,12 @@ class SetupActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_setup)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val vegType = sharedPref.getString(Constants.VEGTYPE, null)
+        if(vegType != null) {
+            navController.navigate(R.id.action_vegoptionFragment_to_freezerFragment)
+        }
 
         binding.buttonBottom.setOnClickListener {
             when(navController.currentDestination?.label) {

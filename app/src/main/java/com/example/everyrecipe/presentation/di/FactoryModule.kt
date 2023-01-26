@@ -4,9 +4,7 @@ import android.app.Application
 import com.example.everyrecipe.domain.repository.FoodRepository
 import com.example.everyrecipe.domain.repository.FreezerRepository
 import com.example.everyrecipe.domain.repository.RecipeRepository
-import com.example.everyrecipe.presentation.viewmodel.BookmarkViewModelFactory
-import com.example.everyrecipe.presentation.viewmodel.FreezerViewModelFactory
-import com.example.everyrecipe.presentation.viewmodel.SearchViewModelFactory
+import com.example.everyrecipe.presentation.viewmodel.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +53,18 @@ class FactoryModule {
             foodRepository,
             recipeRepository,
             freezerRepository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideRecommendViewModelFactory(
+        application: Application,
+        recipeRepository: RecipeRepository
+    ): RecommendViewModelFactory {
+        return RecommendViewModelFactory(
+            application,
+            recipeRepository
         )
     }
 }
