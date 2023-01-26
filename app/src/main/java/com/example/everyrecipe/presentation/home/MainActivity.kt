@@ -1,31 +1,58 @@
 package com.example.everyrecipe.presentation.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.amplifyframework.api.ApiException
-import com.amplifyframework.api.graphql.model.ModelQuery
-import com.amplifyframework.datastore.generated.model.Recipe
-import com.amplifyframework.kotlin.core.Amplify
 import com.example.everyrecipe.R
 import com.example.everyrecipe.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var recommendFragment: RecommendFragment
+    private lateinit var searchFragment: SearchFragment
+    private lateinit var bookmarkFragment: BookmarkFragment
+    private lateinit var settingFragment: SettingFragment
+
+    private var selectedFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
+        setUpBottomNavigation()
+    }
 
-        binding.bottomNavigationView.setupWithNavController(navController)
+    private fun setUpBottomNavigation() {
+        recommendFragment = RecommendFragment()
+        searchFragment = SearchFragment()
+        bookmarkFragment = BookmarkFragment()
+        settingFragment = SettingFragment()
+        
+        changeFragment(recommendFragment)
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            val fragment = when(it.itemId) {
+                R.id.recommendFragment -> recommendFragment
+                R.id.searchFragment -> searchFragment
+                R.id.bookmarkFragment -> bookmarkFragment
+                else -> settingFragment
+            }
+            changeFragment(fragment)
+            true
+        }
+    }
+
+    private fun changeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, fragment)
+            .commit()
     }
 }
