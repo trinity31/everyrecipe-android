@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/freezerFragment"
-        android:name="com.example.everyrecipe.presentation.setup.FreezerFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.setup.FreezerFragment"
         android:label="@string/freezer_fragment_label"
         tools:layout="@layout/fragment_freezer">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/vegOptionFragment"
-        android:name="com.example.everyrecipe.presentation.setup.VegOptionFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.setup.VegOptionFragment"
         android:label="@string/vegoption_fragment_label"
         tools:layout="@layout/fragment_vegoption">
 

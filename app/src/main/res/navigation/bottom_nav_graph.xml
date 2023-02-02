@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/recommendFragment"
-        android:name="com.example.everyrecipe.presentation.home.RecommendFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.home.RecommendFragment"
         android:label="fragment_recommend"
         tools:layout="@layout/fragment_recommend" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.everyrecipe.presentation.home.SearchFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.home.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/bookmarkFragment"
-        android:name="com.example.everyrecipe.presentation.home.BookmarkFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.home.BookmarkFragment"
         android:label="fragment_bookmark"
         tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.everyrecipe.presentation.home.SettingFragment"
+        android:name="com.davinciapps.fridgemaster.presentation.home.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>
