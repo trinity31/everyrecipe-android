@@ -13,8 +13,8 @@ android {
         applicationId "com.davinciapps.everyrecipe"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 10201
+        versionName "1.2.1"
         buildConfigField("String","BASE_URL",MY_URL)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

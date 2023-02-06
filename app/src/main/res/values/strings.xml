@@ -13,9 +13,11 @@
     <string name="ingredient">재료</string>
     <string name="procedure">과정</string>
     <string name="search_result">검색 결과</string>
+    <string name="see_more">더보기</string>
     <string name="search_in_freezer">냉장고 재료에서 선택</string>
     <string name="vegoption_description">채삭을 하신다면 채식 단계를 선택해 주세요. 이 데이타를 기반으로 재료를 선택할 수 있으며 검색된 레시피는 채식이 아닐 수도 있습니다.</string>
     <string name="query_hint">레시피에 사용할 재료 검색</string>
     <string name="no_items_in_freezer">레시피 추천을 위해 냉장고에 아이템을 추가해 주세요.</string>
     <string name="msg_loading_recommendation">냉장고 재료를 활용한 추천 레시피를 가져오고 있어요. 잠시만 기다려 주세요.</string>
+    <string name="recommend_card_title_1">농림수산부 추천</string>
 </resources>

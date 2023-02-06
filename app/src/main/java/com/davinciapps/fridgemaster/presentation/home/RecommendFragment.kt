@@ -11,10 +11,14 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.davinciapps.fridgemaster.R
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.databinding.FragmentRecommendBinding
 import com.davinciapps.fridgemaster.presentation.adapters.RecipeListAdapter
+import com.davinciapps.fridgemaster.presentation.adapters.RecommendCardAdapter
 import com.davinciapps.fridgemaster.presentation.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,7 +45,7 @@ class RecommendFragment : Fragment() {
     private var _binding: FragmentRecommendBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var recipeListAdapter: RecipeListAdapter
+    private lateinit var recommendCardAdapter1: RecommendCardAdapter
 
     val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -76,9 +80,10 @@ class RecommendFragment : Fragment() {
     }
 
     private fun initView() {
-        recipeListAdapter = RecipeListAdapter(listOf(), viewModel = bookmarkViewModel)
+        recommendCardAdapter1 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_1), listOf(), viewModel = bookmarkViewModel)
+        val concatenatedAdapter = ConcatAdapter(recommendCardAdapter1)
         binding.recommendRv.apply {
-            adapter = recipeListAdapter
+            adapter = concatenatedAdapter
             layoutManager = LinearLayoutManager(activity)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -131,8 +136,8 @@ class RecommendFragment : Fragment() {
                     binding.llProgress.visibility = View.INVISIBLE
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
                     it.data?.let { recipes ->
-                        recipeListAdapter.recipes = recipes
-                        recipeListAdapter.notifyDataSetChanged()
+                        recommendCardAdapter1.recipes = recipes.take(4)
+                        recommendCardAdapter1.notifyDataSetChanged()
                     }
                 }
                 is Resource.Error -> {
@@ -149,7 +154,7 @@ class RecommendFragment : Fragment() {
             when(it) {
                 is Resource.Success -> {
                     Log.i(TAG, "Fetched Bookmarks.")
-                    recipeListAdapter.notifyDataSetChanged()
+                    recommendCardAdapter1.notifyDataSetChanged()
                 }
                 else -> {}
             }
