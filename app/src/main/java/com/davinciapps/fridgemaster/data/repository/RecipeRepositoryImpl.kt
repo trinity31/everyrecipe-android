@@ -1,9 +1,7 @@
 package com.davinciapps.fridgemaster.data.repository
 
 import com.amplifyframework.api.rest.RestResponse
-import com.davinciapps.fridgemaster.data.model.Ingredient
-import com.davinciapps.fridgemaster.data.model.Procedure
-import com.davinciapps.fridgemaster.data.model.Recipe
+import com.davinciapps.fridgemaster.data.model.*
 import com.davinciapps.fridgemaster.data.param.req.ReqParamSearchRecipe
 import com.davinciapps.fridgemaster.data.param.res.RecommendRecipeOutput
 import com.davinciapps.fridgemaster.data.repository.dataSource.BookmarkLocalDataSource
@@ -69,6 +67,29 @@ class RecipeRepositoryImpl(
         if(response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(it.Grid_20150827000000000228_1.row)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    override suspend fun getRecommendedWebRecipes(items: List<FreezerItem>): Resource<List<Recipe>> {
+        val response = recipeRemoteDataSource.getRecommendWebRecipes(items)
+
+        if(response.isSuccessful) {
+            response.body()?.let { searchResponse ->
+                return Resource.Success(searchResponse.items.map {
+                    val b = Recipe(
+                            null,
+                            RecipeInfo(
+                                name = it.title,
+                                description = it.snippet,
+                                thumbnailImage = it.pagemap.cse_thumbnail.firstOrNull()?.src ?: "",
+                                link = it.link
+                            ),
+                            ingredients = items.map { it.name }
+                        )
+                    b
+                })
             }
         }
         return Resource.Error(response.message())

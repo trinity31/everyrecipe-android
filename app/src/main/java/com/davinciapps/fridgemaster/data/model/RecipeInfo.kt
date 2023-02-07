@@ -13,5 +13,7 @@ data class RecipeInfo(
     val name: String = "", //갈비찜
     val nation: String = "", //한식
     val type: String = "", //찜
-    val updatedAt: String = "" //2022-03-28T10:29:15+09:00
+    val updatedAt: String = "", //2022-03-28T10:29:15+09:00
+    val link: String = "", //웹검색인 경우 Url
+    val thumbnailImage: String = "" //웹검색 썸네일 이미지
 ) : Serializable

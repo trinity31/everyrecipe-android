@@ -16,6 +16,9 @@ android {
         versionCode 10201
         versionName "1.2.1"
         buildConfigField("String","BASE_URL",MY_URL)
+        buildConfigField("String", "GOOGLE_URL", GOOGLE_API_URL)
+        buildConfigField("String", "GOOGLE_SEARCH_ENGINE", GOOGLE_SEARCH_ENGINE_ID)
+        buildConfigField("String", "GOOGLE_API_KEY", GOOGLE_API_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +38,9 @@ android {
     }
     buildFeatures{
         viewBinding = true
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
     }
 }
 
@@ -90,6 +96,11 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    //Google API
+    implementation 'com.google.apis:google-api-services-customsearch:v1-rev86-1.25.0'
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
     // Support for Java 8 features
     //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'

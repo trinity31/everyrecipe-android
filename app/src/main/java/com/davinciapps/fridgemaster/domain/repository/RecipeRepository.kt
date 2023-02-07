@@ -13,4 +13,6 @@ interface RecipeRepository {
     suspend fun deleteRecipeFromBookmark(recipe: Recipe): Int
     suspend fun getRecipeIngredients(recipeId: String): Resource<List<Ingredient>>
     suspend fun getRecipeProcedures(recipeId: String): Resource<List<Procedure>>
+
+    suspend fun getRecommendedWebRecipes(items: List<FreezerItem>): Resource<List<Recipe>>
 }

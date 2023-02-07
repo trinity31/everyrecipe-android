@@ -1,5 +1,6 @@
 package com.davinciapps.fridgemaster.presentation.di
 
+import com.davinciapps.fridgemaster.data.api.GoogleAPIService
 import com.davinciapps.fridgemaster.data.api.OpenAPIService
 import com.davinciapps.fridgemaster.data.repository.dataSource.FoodRemoteDataSource
 import com.davinciapps.fridgemaster.data.repository.dataSource.RecipeRemoteDataSource
@@ -23,8 +24,9 @@ class RemoteDataModule {
     @Singleton
     @Provides
     fun provideRecipeRemoteDataSource(
-        openAPIService: OpenAPIService
+        openAPIService: OpenAPIService,
+        googleAPIService: GoogleAPIService
     ): RecipeRemoteDataSource {
-        return RecipeRemoteDataSourceImpl(openAPIService)
+        return RecipeRemoteDataSourceImpl(openAPIService, googleAPIService)
     }
 }

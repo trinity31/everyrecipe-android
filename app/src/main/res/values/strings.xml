@@ -19,5 +19,6 @@
     <string name="query_hint">레시피에 사용할 재료 검색</string>
     <string name="no_items_in_freezer">레시피 추천을 위해 냉장고에 아이템을 추가해 주세요.</string>
     <string name="msg_loading_recommendation">냉장고 재료를 활용한 추천 레시피를 가져오고 있어요. 잠시만 기다려 주세요.</string>
-    <string name="recommend_card_title_1">농림수산부 추천</string>
+    <string name="recommend_card_title_1">기본 레시피</string>
+    <string name="recommend_card_title_2">다양한 레시피</string>
 </resources>
