@@ -12,11 +12,13 @@ import com.davinciapps.fridgemaster.R
 import com.davinciapps.fridgemaster.data.model.Recipe
 import com.davinciapps.fridgemaster.databinding.RecipeListItemBinding
 import com.davinciapps.fridgemaster.presentation.home.DetailActivity
+import com.davinciapps.fridgemaster.presentation.home.DetailWebActivity
 import com.davinciapps.fridgemaster.presentation.viewmodel.BookmarkViewModel
 
 class RecipeListAdapter(
     var recipes: List<Recipe>,
-    var viewModel: BookmarkViewModel
+    var viewModel: BookmarkViewModel,
+    var showIng: Boolean
 ) : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(){
     private val TAG = RecipeListAdapter::class.java.simpleName
 
@@ -30,7 +32,7 @@ class RecipeListAdapter(
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         val recipe = recipes[position]
-        holder.bind(recipe)
+        holder.bind(recipe, showIng)
         holder.binding.bookmarkIcon.setOnClickListener {
             if(viewModel.isBookmarked(recipe)) {
                 viewModel.removeFromBookmark(recipe)
@@ -40,12 +42,18 @@ class RecipeListAdapter(
         }
         holder.binding.container.setOnClickListener {
             Log.i(TAG, "Recipe clicked: $recipe")
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("title", recipe.recipe?.name)
-            intent.putExtra("id", recipe.recipe?.id)
-            intent.putExtra("imageUrl", recipe.recipe?.imageUrl)
-            intent.putExtra("description", recipe.recipe?.description)
-            context.startActivity(intent)
+            if(recipe.recipe?.link != "") {
+                val intent = Intent(context, DetailWebActivity::class.java)
+                intent.putExtra("url", recipe.recipe?.link)
+                context.startActivity(intent)
+            } else {
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("title", recipe.recipe?.name)
+                intent.putExtra("id", recipe.recipe?.id)
+                intent.putExtra("imageUrl", recipe.recipe?.imageUrl)
+                intent.putExtra("description", recipe.recipe?.description)
+                context.startActivity(intent)
+            }
         }
     }
 
@@ -56,13 +64,17 @@ class RecipeListAdapter(
     inner class RecipeListViewHolder(
         val binding: RecipeListItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(recipe: Recipe) {
+        fun bind(recipe: Recipe, showIng: Boolean) {
             binding.recipeTitle.text = recipe.recipe?.name ?: ""
             binding.recipeDescription.text = recipe.recipe?.description ?: ""
-            binding.recipeIngredients.text = recipe.ingredients.joinToString(", ")
+
+            binding.recipeIngredients.text = if(showIng) recipe.ingredients.joinToString(", ") else ""
+
+            val imageUrl = if(recipe.recipe?.thumbnailImage.isNullOrEmpty()) recipe.recipe?.imageUrl
+                            else recipe.recipe?.thumbnailImage
 
             Glide.with(binding.recipeThumbnail.context)
-                .load(recipe.recipe?.imageUrl)
+                .load(imageUrl)
                 .into(binding.recipeThumbnail)
 
             val image = if(viewModel.isBookmarked(recipe))

@@ -2,6 +2,7 @@ package com.davinciapps.fridgemaster.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,9 @@ import com.davinciapps.fridgemaster.presentation.viewmodel.BookmarkViewModel
 class RecommendCardAdapter(
     var cardTitle: String,
     var recipes: List<Recipe>,
-    var viewModel: BookmarkViewModel
+    var viewModel: BookmarkViewModel,
+    var showIng: Boolean,
+    var loading:Boolean = true
 ) : RecyclerView.Adapter<RecommendCardAdapter.ViewHolder>() {
     private val TAG = RecipeListAdapter::class.java.simpleName
     private lateinit var context: Context
@@ -39,8 +42,9 @@ class RecommendCardAdapter(
             binding.titleTextView.text = cardTitle
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = RecipeListAdapter(recipes, viewModel)
+                adapter = RecipeListAdapter(recipes, viewModel, showIng)
             }
+            binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
         }
     }
 }

@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davinciapps.fridgemaster.R
@@ -46,6 +48,7 @@ class RecommendFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var recommendCardAdapter1: RecommendCardAdapter
+    private lateinit var recommendCardAdapter2: RecommendCardAdapter
 
     val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -80,11 +83,17 @@ class RecommendFragment : Fragment() {
     }
 
     private fun initView() {
-        recommendCardAdapter1 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_1), listOf(), viewModel = bookmarkViewModel)
-        val concatenatedAdapter = ConcatAdapter(recommendCardAdapter1)
+        recommendCardAdapter1 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_1), listOf(), viewModel = bookmarkViewModel, true)
+        recommendCardAdapter2 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_2), listOf(), viewModel = bookmarkViewModel, false)
+        val concatenatedAdapter = ConcatAdapter(recommendCardAdapter1, recommendCardAdapter2)
+
         binding.recommendRv.apply {
             adapter = concatenatedAdapter
             layoutManager = LinearLayoutManager(activity)
+            val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            ContextCompat.getDrawable(context, R.drawable.divider)
+                ?.let { itemDecoration.setDrawable(it) }
+            addItemDecoration(itemDecoration)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = true;
@@ -116,6 +125,7 @@ class RecommendFragment : Fragment() {
                     it.data?.let { list ->
                         if(list.size > 0) {
                             viewModel.getRecommendedRecipes(list)
+                            viewModel.getRecommendedWebRecipes(list)
                         } else {
                             binding.llFreezer.visibility = View.VISIBLE
                         }
@@ -126,28 +136,56 @@ class RecommendFragment : Fragment() {
                 is Resource.Error -> {
                     binding.llProgress.visibility = View.INVISIBLE
                 }
-                is Resource.Loading -> {binding.llProgress.visibility = View.VISIBLE}
+                is Resource.Loading -> {
+                    binding.llProgress.visibility = View.VISIBLE
+                }
             }
         }
 
         viewModel.recipes.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    binding.llProgress.visibility = View.INVISIBLE
+                    //binding.llProgress.visibility = View.INVISIBLE
+                    recommendCardAdapter1.loading = false
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
                     it.data?.let { recipes ->
                         recommendCardAdapter1.recipes = recipes.take(4)
-                        recommendCardAdapter1.notifyDataSetChanged()
                     }
                 }
                 is Resource.Error -> {
-                    binding.llProgress.visibility = View.INVISIBLE
+                    //binding.llProgress.visibility = View.INVISIBLE
+                    recommendCardAdapter1.loading = false
                     Log.i(TAG, "Failed to fetch recipes. ${it.message}")
                 }
                 is Resource.Loading -> {
-                    binding.llProgress.visibility = View.VISIBLE
+                    //binding.llProgress.visibility = View.VISIBLE
+                    recommendCardAdapter1.loading = true
                 }
             }
+            recommendCardAdapter1.notifyDataSetChanged()
+        }
+
+        viewModel.recipesWeb.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    //binding.llProgress.visibility = View.INVISIBLE
+                    recommendCardAdapter2.loading = false
+                    Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
+                    it.data?.let { recipes ->
+                        recommendCardAdapter2.recipes = recipes.take(4)
+                    }
+                }
+                is Resource.Error -> {
+                    //binding.llProgress.visibility = View.INVISIBLE
+                    recommendCardAdapter2.loading = false
+                    Log.i(TAG, "Failed to fetch recipes. ${it.message}")
+                }
+                is Resource.Loading -> {
+                    //binding.llProgress.visibility = View.VISIBLE
+                    recommendCardAdapter2.loading = true
+                }
+            }
+            recommendCardAdapter2.notifyDataSetChanged()
         }
 
         bookmarkViewModel.bookmarks.observe(viewLifecycleOwner) {

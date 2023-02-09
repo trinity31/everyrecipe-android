@@ -60,12 +60,12 @@ class BookmarkViewModel constructor(
     }
 
     fun isBookmarked(recipe: Recipe): Boolean {
-       // Log.i(TAG, "recipe: $recipe")
+        //Log.i(TAG, "recipe: $recipe")
 
         bookmarks.value?.data?.forEach {
-          //  Log.i(TAG, it.toString())
-            if(it.recipe?.id == recipe.recipe?.id) {
-                Log.i(TAG, "${recipe.recipe?.name} is bookmarked")
+            //Log.i(TAG, it.toString())
+            if(it.recipe?.name == recipe.recipe?.name) {
+                //Log.i(TAG, "${recipe.recipe?.name} is bookmarked")
                 return true
             }
         }

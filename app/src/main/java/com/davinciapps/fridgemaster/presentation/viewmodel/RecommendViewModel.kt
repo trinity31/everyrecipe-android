@@ -1,6 +1,7 @@
 package com.davinciapps.fridgemaster.presentation.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ class RecommendViewModel constructor(
     private val TAG = RecommendViewModel::class.java.simpleName
 
     var recipes: MutableLiveData<Resource<List<Recipe>>> = MutableLiveData()
+    var recipesWeb: MutableLiveData<Resource<List<Recipe>>> = MutableLiveData()
 
     fun getRecommendedRecipes(freezerItems: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
         val param = ReqParamSearchRecipe(searchItems = freezerItems)
@@ -28,6 +30,18 @@ class RecommendViewModel constructor(
             recipes.postValue(response)
         } catch (e: Exception) {
             recipes.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun getRecommendedWebRecipes(freezerItems: List<FreezerItem>) = viewModelScope.launch(Dispatchers.IO) {
+        recipesWeb.postValue(Resource.Loading())
+        //Log.i(TAG, "freezerItems: $freezerItems")
+        try {
+            val response = recipeRepository.getRecommendedWebRecipes(freezerItems)
+            //Log.i(TAG, "response: ${response.data}")
+            recipesWeb.postValue(response)
+        } catch (e: Exception) {
+            recipesWeb.postValue(Resource.Error(e.message.toString()))
         }
     }
 }

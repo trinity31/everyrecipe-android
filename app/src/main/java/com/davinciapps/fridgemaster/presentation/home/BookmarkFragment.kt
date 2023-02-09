@@ -49,7 +49,7 @@ class BookmarkFragment : Fragment() {
     }
 
     private fun initView() {
-        recipeListAdapter = RecipeListAdapter(listOf(), viewModel = bookmarkViewModel)
+        recipeListAdapter = RecipeListAdapter(listOf(), viewModel = bookmarkViewModel, true)
         binding.bookmarkRv.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(activity)

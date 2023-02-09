@@ -10,7 +10,7 @@ import java.io.Serializable
 )
 data class Recipe(
     @PrimaryKey(autoGenerate = true)
-    val recipeId: Int? = null,
+    val recipeId: Int,
     @Embedded
     val recipe: RecipeInfo?,
     @TypeConverters(ListStringTypeConverter::class)

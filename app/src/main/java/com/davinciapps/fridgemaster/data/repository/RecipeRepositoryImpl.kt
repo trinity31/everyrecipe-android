@@ -1,5 +1,6 @@
 package com.davinciapps.fridgemaster.data.repository
 
+import android.util.Log
 import com.amplifyframework.api.rest.RestResponse
 import com.davinciapps.fridgemaster.data.model.*
 import com.davinciapps.fridgemaster.data.param.req.ReqParamSearchRecipe
@@ -79,10 +80,11 @@ class RecipeRepositoryImpl(
             response.body()?.let { searchResponse ->
                 return Resource.Success(searchResponse.items.map {
                     val b = Recipe(
-                            null,
+                            0,
                             RecipeInfo(
                                 name = it.title,
                                 description = it.snippet,
+                                imageUrl = it.pagemap.cse_image.firstOrNull()?.src ?: "",
                                 thumbnailImage = it.pagemap.cse_thumbnail.firstOrNull()?.src ?: "",
                                 link = it.link
                             ),

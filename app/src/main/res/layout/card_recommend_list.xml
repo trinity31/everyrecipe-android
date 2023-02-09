@@ -29,14 +29,14 @@
 <!--            android:backgroundTint="#FFFFFF"-->
 <!--            app:srcCompat="@drawable/refresh" />-->
 
-        <TextView
-            android:id="@+id/tv_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:text="@string/see_more"
-            android:textColor="#cccccc"
-            android:textSize="15sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_more"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="0dp"-->
+<!--            android:text="@string/see_more"-->
+<!--            android:textColor="#cccccc"-->
+<!--            android:textSize="15sp" />-->
         <ImageButton
             android:id="@+id/btn_more"
             android:layout_width="60dp"
@@ -49,6 +49,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyle"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -61,7 +61,7 @@ class SearchResultActivity : AppCompatActivity() {
             it.setDisplayHomeAsUpEnabled(true)
         }
 
-        recipeListAdapter = RecipeListAdapter(recipes, viewModel)
+        recipeListAdapter = RecipeListAdapter(recipes, viewModel, true)
         binding.recyclerView.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(this@SearchResultActivity)

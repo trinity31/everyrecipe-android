@@ -78,7 +78,7 @@ class RecipeRemoteDataSourceImpl(
 
     override suspend fun getRecommendWebRecipes(items: List<FreezerItem>): Response<GoogleSearchResponse> {
         return googleAPIService.getSearchResult(
-            items.joinToString(" AND ") { "intext:\"$it\"" } + " (" + sites.joinToString(" OR ") { "site:$it" } + ")",
+            items.joinToString(" OR ") { "intext:\"${it.name}\"" } + " (" + sites.joinToString(" OR ") { "site:$it" } + ")",
             BuildConfig.GOOGLE_SEARCH_ENGINE,
             BuildConfig.GOOGLE_API_KEY,
             "countryKR",
