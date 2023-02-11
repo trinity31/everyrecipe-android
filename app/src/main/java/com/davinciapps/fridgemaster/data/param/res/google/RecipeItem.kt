@@ -1,4 +1,5 @@
-data class Item(
+package com.davinciapps.fridgemaster.data.param.res.google
+data class RecipeItem(
     val cacheId: String,
     val displayLink: String,
     val formattedUrl: String,

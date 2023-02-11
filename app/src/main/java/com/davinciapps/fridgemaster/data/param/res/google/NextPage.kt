@@ -1,3 +1,4 @@
+package com.davinciapps.fridgemaster.data.param.res.google
 data class NextPage(
     val count: Int,
     val cr: String,

@@ -1,7 +1,9 @@
 package com.davinciapps.fridgemaster.data.repository.dataSourceImpl
 
-import GoogleSearchResponse
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.amplifyframework.api.ApiException
 import com.amplifyframework.api.rest.RestOptions
 import com.amplifyframework.api.rest.RestResponse
@@ -10,10 +12,16 @@ import com.davinciapps.fridgemaster.BuildConfig
 import com.davinciapps.fridgemaster.data.api.GoogleAPIService
 import com.davinciapps.fridgemaster.data.api.OpenAPIService
 import com.davinciapps.fridgemaster.data.model.FreezerItem
+import com.davinciapps.fridgemaster.data.model.Recipe
+import com.davinciapps.fridgemaster.data.param.res.google.GoogleSearchResponse
+import com.davinciapps.fridgemaster.data.param.res.google.RecipeItem
 import com.davinciapps.fridgemaster.data.param.res.openapi.IngResponse
 import com.davinciapps.fridgemaster.data.param.res.openapi.ProcResponse
+import com.davinciapps.fridgemaster.data.repository.GooglePagingSource
+import com.davinciapps.fridgemaster.data.repository.NETWORK_PAGE_SIZE
 import com.davinciapps.fridgemaster.data.repository.dataSource.RecipeRemoteDataSource
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class RecipeRemoteDataSourceImpl(
@@ -85,7 +93,18 @@ class RecipeRemoteDataSourceImpl(
             "레시피",
             1,
             "lang_ko",
+            1,
             10
         )
+    }
+
+    override fun getRecommendedWebRecipesStream(items: List<FreezerItem>): Flow<PagingData<Recipe>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GooglePagingSource(googleAPIService, items.joinToString(" OR ") { "intext:\"${it.name}\"" } + " (" + sites.joinToString(" OR ") { "site:$it" } + ")") }
+        ).flow
     }
 }

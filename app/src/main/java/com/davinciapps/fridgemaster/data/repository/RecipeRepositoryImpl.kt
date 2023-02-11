@@ -1,16 +1,18 @@
 package com.davinciapps.fridgemaster.data.repository
 
 import android.util.Log
+import androidx.paging.PagingData
 import com.amplifyframework.api.rest.RestResponse
 import com.davinciapps.fridgemaster.data.model.*
 import com.davinciapps.fridgemaster.data.param.req.ReqParamSearchRecipe
 import com.davinciapps.fridgemaster.data.param.res.RecommendRecipeOutput
+import com.davinciapps.fridgemaster.data.param.res.google.RecipeItem
 import com.davinciapps.fridgemaster.data.repository.dataSource.BookmarkLocalDataSource
 import com.davinciapps.fridgemaster.data.repository.dataSource.RecipeRemoteDataSource
-import com.davinciapps.fridgemaster.data.repository.model.*
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.domain.repository.RecipeRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 
 class RecipeRepositoryImpl(
     private val recipeRemoteDataSource: RecipeRemoteDataSource,
@@ -98,4 +100,7 @@ class RecipeRepositoryImpl(
         return Resource.Error(response.message())
     }
 
+    override fun getRecommendedWebRecipesStream(items: List<FreezerItem>): Flow<PagingData<Recipe>> {
+        return recipeRemoteDataSource.getRecommendedWebRecipesStream(items)
+    }
 }

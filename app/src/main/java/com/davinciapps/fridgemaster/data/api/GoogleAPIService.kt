@@ -1,6 +1,6 @@
 package com.davinciapps.fridgemaster.data.api
 
-import GoogleSearchResponse
+import com.davinciapps.fridgemaster.data.param.res.google.GoogleSearchResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,6 +15,7 @@ interface GoogleAPIService {
         @Query("exactTerms") exactTerms: String,
         @Query("filter") filter: Int,
         @Query("lr") lr: String,
+        @Query("start") start: Int,
         @Query("num") num: Int
     ): Response<GoogleSearchResponse>
 }

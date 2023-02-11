@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davinciapps.fridgemaster.R
+import com.davinciapps.fridgemaster.data.model.FreezerItemList
 import com.davinciapps.fridgemaster.data.model.RecipeList
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.databinding.FragmentRecommendBinding
@@ -182,6 +183,19 @@ class RecommendFragment : Fragment() {
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
                     it.data?.let { recipes ->
                         recommendCardAdapter2.recipes = recipes.take(4)
+                        recommendCardAdapter2.setMoreClickListener(object :
+                            RecommendCardAdapter.OnMoreClickListener {
+                            override fun onMoreClick() {
+                                val intent = Intent(requireActivity(), SearchResultPagingActivity::class.java)
+                                intent.putExtra("title", resources.getString(R.string.recommend_card_title_2))
+                                intent.putExtra("freezer_item_list", freezerViewModel.existingItems.value?.data?.let { it1 ->
+                                    FreezerItemList(
+                                        it1
+                                    )
+                                } as Serializable)
+                                startActivity(intent)
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {

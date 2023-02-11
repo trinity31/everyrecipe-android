@@ -1,3 +1,4 @@
+package com.davinciapps.fridgemaster.data.param.res.google
 data class Request(
     val count: Int,
     val cr: String,
