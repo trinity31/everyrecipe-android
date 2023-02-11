@@ -57,7 +57,7 @@ class SearchResultActivity : AppCompatActivity() {
         }
 
         supportActionBar?.let {
-            title = resources.getString(R.string.search_result)
+            title = intent.getStringExtra("title") ?: resources.getString(R.string.search_result)
             it.setDisplayHomeAsUpEnabled(true)
         }
 

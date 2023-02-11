@@ -7,6 +7,7 @@ import com.davinciapps.fridgemaster.data.param.req.ReqParamSearchRecipe
 import com.davinciapps.fridgemaster.data.param.res.RecommendRecipeOutput
 import com.davinciapps.fridgemaster.data.repository.dataSource.BookmarkLocalDataSource
 import com.davinciapps.fridgemaster.data.repository.dataSource.RecipeRemoteDataSource
+import com.davinciapps.fridgemaster.data.repository.model.*
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.domain.repository.RecipeRepository
 import com.google.gson.Gson

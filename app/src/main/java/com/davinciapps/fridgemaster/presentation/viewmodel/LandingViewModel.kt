@@ -56,11 +56,13 @@ class LandingViewModel @Inject constructor(
             //Insert all foods to the freezerItem DB
             response.data?.let {
                 it.forEach { food ->
-                    freezerItems.add(FreezerItem(
+                    freezerItems.add(
+                        FreezerItem(
                         food.id,
                         food.category.id,
                         food.name
-                    ))
+                    )
+                    )
                 }
             }
             val result = freezerRepository.setFreezerItems(freezerItems)

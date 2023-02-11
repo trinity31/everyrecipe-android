@@ -15,14 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.davinciapps.fridgemaster.R
+import com.davinciapps.fridgemaster.data.model.RecipeList
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.databinding.FragmentRecommendBinding
-import com.davinciapps.fridgemaster.presentation.adapters.RecipeListAdapter
 import com.davinciapps.fridgemaster.presentation.adapters.RecommendCardAdapter
 import com.davinciapps.fridgemaster.presentation.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
 import javax.inject.Inject
 
 
@@ -150,6 +150,15 @@ class RecommendFragment : Fragment() {
                     Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
                     it.data?.let { recipes ->
                         recommendCardAdapter1.recipes = recipes.take(4)
+                        recommendCardAdapter1.setMoreClickListener(object :
+                            RecommendCardAdapter.OnMoreClickListener {
+                            override fun onMoreClick() {
+                                val intent = Intent(requireActivity(), SearchResultActivity::class.java)
+                                intent.putExtra("title", resources.getString(R.string.recommend_card_title_1))
+                                intent.putExtra("recipe_list", RecipeList(recipes) as Serializable)
+                                startActivity(intent)
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {

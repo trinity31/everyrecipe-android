@@ -20,6 +20,16 @@ class RecommendCardAdapter(
     private val TAG = RecipeListAdapter::class.java.simpleName
     private lateinit var context: Context
 
+    private var listener: OnMoreClickListener? = null
+
+    interface OnMoreClickListener {
+        fun onMoreClick()
+    }
+
+    fun setMoreClickListener(listener: OnMoreClickListener) {
+        this.listener = listener
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -45,6 +55,9 @@ class RecommendCardAdapter(
                 adapter = RecipeListAdapter(recipes, viewModel, showIng)
             }
             binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
+            binding.btnMore.setOnClickListener {
+                listener?.onMoreClick()
+            }
         }
     }
 }

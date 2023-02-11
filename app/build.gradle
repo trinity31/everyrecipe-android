@@ -50,6 +50,7 @@ dependencies {
     def room_version = "2.5.0"
     def preference_version = "1.2.0"
     def glide_version = "4.13.2"
+    def paging_version = "3.1.1"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
@@ -101,6 +102,9 @@ dependencies {
     implementation 'com.google.apis:google-api-services-customsearch:v1-rev86-1.25.0'
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+
+    //Paging
+    implementation "androidx.paging:paging-runtime:$paging_version"
 
     // Support for Java 8 features
     //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
