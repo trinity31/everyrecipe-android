@@ -37,6 +37,7 @@ class SearchResultPagingAdapter(
         val binding: RecipeListItem2Binding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
+            Log.i("SearchResultPagingAdapter", "${recipe.recipe}")
             binding.recipeTitle.text = recipe.recipe?.name
             binding.recipeDescription.text = recipe.recipe?.description ?: ""
             val imageUrl = if(recipe.recipe?.thumbnailImage.isNullOrEmpty()) recipe.recipe?.imageUrl

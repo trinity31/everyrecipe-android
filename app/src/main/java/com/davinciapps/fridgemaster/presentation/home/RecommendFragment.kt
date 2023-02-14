@@ -186,13 +186,14 @@ class RecommendFragment : Fragment() {
                         recommendCardAdapter2.setMoreClickListener(object :
                             RecommendCardAdapter.OnMoreClickListener {
                             override fun onMoreClick() {
-                                val intent = Intent(requireActivity(), SearchResultPagingActivity::class.java)
+                                val intent = Intent(requireActivity(), SearchResultActivity::class.java)
                                 intent.putExtra("title", resources.getString(R.string.recommend_card_title_2))
-                                intent.putExtra("freezer_item_list", freezerViewModel.existingItems.value?.data?.let { it1 ->
-                                    FreezerItemList(
-                                        it1
-                                    )
-                                } as Serializable)
+                                intent.putExtra("recipe_list", RecipeList(recipes) as Serializable)
+//                                intent.putExtra("freezer_item_list", freezerViewModel.existingItems.value?.data?.let { it1 ->
+//                                    FreezerItemList(
+//                                        it1
+//                                    )
+//                                } as Serializable)
                                 startActivity(intent)
                             }
                         })

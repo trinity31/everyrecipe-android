@@ -40,8 +40,10 @@ class GooglePagingSource(
                 1,
                 "lang_ko",
                 position,
-                10
+                params.loadSize
             )
+
+            Log.i("GooglePagingSource", "params.loadSize: ${params.loadSize}")
 
             val repos = response.body()?.items?.map {
                 val b = Recipe(
@@ -58,7 +60,7 @@ class GooglePagingSource(
                 b
             } ?: emptyList()
 
-            //Log.i("GooglePagingSource", "response: ${response}")
+            Log.i("GooglePagingSource", "repos: ${repos}")
 
             val nextKey = if (repos.isEmpty()) {
                 null
@@ -67,6 +69,7 @@ class GooglePagingSource(
                 // ensure we're not requesting duplicating items, at the 2nd request
                 position + (params.loadSize / NETWORK_PAGE_SIZE)
             }
+            Log.i("GooglePagingSource", "nextKey: ${nextKey}")
             LoadResult.Page(
                 data = repos,
                 prevKey = if (position == GOOGLE_STARTING_PAGE_INDEX) null else position - 1,
