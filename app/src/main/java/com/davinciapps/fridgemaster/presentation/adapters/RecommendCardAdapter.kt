@@ -17,7 +17,7 @@ class RecommendCardAdapter(
     var showIng: Boolean,
     var loading:Boolean = true
 ) : RecyclerView.Adapter<RecommendCardAdapter.ViewHolder>() {
-    private val TAG = RecipeListAdapter::class.java.simpleName
+    private val TAG = RecommendCardRVAdapter::class.java.simpleName
     private lateinit var context: Context
 
     private var listener: OnMoreClickListener? = null
@@ -52,7 +52,7 @@ class RecommendCardAdapter(
             binding.titleTextView.text = cardTitle
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = RecipeListAdapter(recipes, viewModel, showIng)
+                adapter = RecommendCardRVAdapter(recipes, viewModel, showIng)
             }
             binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
             binding.btnMore.setOnClickListener {

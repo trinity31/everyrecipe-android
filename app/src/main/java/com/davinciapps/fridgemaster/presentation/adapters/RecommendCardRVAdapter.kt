@@ -10,27 +10,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.davinciapps.fridgemaster.R
 import com.davinciapps.fridgemaster.data.model.Recipe
-import com.davinciapps.fridgemaster.databinding.RecipeListItem2Binding
+import com.davinciapps.fridgemaster.databinding.RecipeListItemBinding
 import com.davinciapps.fridgemaster.presentation.home.DetailActivity
 import com.davinciapps.fridgemaster.presentation.home.DetailWebActivity
 import com.davinciapps.fridgemaster.presentation.viewmodel.BookmarkViewModel
 
-class RecipeListAdapter(
+class RecommendCardRVAdapter(
     var recipes: List<Recipe>,
     var viewModel: BookmarkViewModel,
     var showIng: Boolean
-) : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(){
+) : RecyclerView.Adapter<RecommendCardRVAdapter.RecipeListRVViewHolder>(){
     private val TAG = RecipeListAdapter::class.java.simpleName
 
     private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListRVViewHolder {
         context = parent.context
-        val binding = RecipeListItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecipeListViewHolder(binding)
+        val binding = RecipeListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return RecipeListRVViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecipeListRVViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe, showIng)
         holder.binding.bookmarkIcon.setOnClickListener {
@@ -61,8 +61,8 @@ class RecipeListAdapter(
         return recipes.size
     }
 
-    inner class RecipeListViewHolder(
-        val binding: RecipeListItem2Binding
+    inner class RecipeListRVViewHolder(
+        val binding: RecipeListItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe, showIng: Boolean) {
             binding.recipeTitle.text = recipe.recipe?.name ?: ""
@@ -71,7 +71,7 @@ class RecipeListAdapter(
             binding.recipeIngredients.text = if(showIng) recipe.ingredients.joinToString(", ") else ""
 
             val imageUrl = if(recipe.recipe?.thumbnailImage.isNullOrEmpty()) recipe.recipe?.imageUrl
-                            else recipe.recipe?.thumbnailImage
+            else recipe.recipe?.thumbnailImage
 
             Glide.with(binding.recipeThumbnail.context)
                 .load(imageUrl)

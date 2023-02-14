@@ -135,7 +135,11 @@ app.post("/recommand", async function (req, res) {
     "1e3d68f0-9423-11ec-b5d2-43970bc42d5d", //밀가루, 빵, 면
   ];
 
-  const filteredItems1 = req.body.freezerItems.filter(
+  // await asyncForEach(req.body.freezerItems, async (item) => {
+  //   console.log(item);
+  // });
+
+  const filteredItems1 = req.body.searchItems.filter(
     (item) =>
       !excludeCategoryList.includes(item.categoryID) &&
       !excludeNameList.includes(item.name)
@@ -143,18 +147,18 @@ app.post("/recommand", async function (req, res) {
 
   let recipes = await searchIngredients(filteredItems1);
 
-  // console.log(recipes);
-  // console.log("Total " + recipes.length + " recipes.");
+  console.log(recipes);
+  console.log("Total " + recipes.length + " recipes.");
 
   if (recipes.length < 10) {
     // console.log("Less than 10 items without filtered category & names");
-    const filteredItems2 = req.body.freezerItems.filter(
+    const filteredItems2 = req.body.searchItems.filter(
       (item) => !excludeCategoryList.includes(item.categoryID)
     );
     recipes = await searchIngredients(filteredItems2);
     if (recipes.length < 10) {
       // console.log("Less than 10 items without filtered category");
-      recipes = await searchIngredients(req.body.freezerItems);
+      recipes = await searchIngredients(req.body.searchItems);
     }
   } else {
     shuffleArray(recipes);
@@ -184,9 +188,9 @@ app.post("/recommand", async function (req, res) {
     //console.log(result[0]);
   });
 
-  //console.log("final result: " + finalResults);
+  console.log("final result: " + finalResults);
 
-  res.json({ success: "post call succeed!", body: finalResults });
+  res.json({ result: "success", body: finalResults });
 });
 
 app.post("/search", async function (req, res) {
@@ -216,7 +220,7 @@ app.post("/search", async function (req, res) {
 
   //console.log("final result: " + finalResults);
 
-  res.json({ success: "post call succeed!", body: finalResults });
+  res.json({ result: "success", body: finalResults });
 });
 
 app.post("/ingredients", async function (req, res) {
