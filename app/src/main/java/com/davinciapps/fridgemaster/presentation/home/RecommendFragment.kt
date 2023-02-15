@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davinciapps.fridgemaster.R
-import com.davinciapps.fridgemaster.data.model.FreezerItemList
 import com.davinciapps.fridgemaster.data.model.RecipeList
 import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.databinding.FragmentRecommendBinding
@@ -126,7 +125,9 @@ class RecommendFragment : Fragment() {
                     it.data?.let { list ->
                         if(list.size > 0) {
                             viewModel.getRecommendedRecipes(list)
-                            viewModel.getRecommendedWebRecipes(list)
+                            if(viewModel.recipesWeb.value?.data.isNullOrEmpty()) {
+                                viewModel.getRecommendedWebRecipes(list)
+                            }
                         } else {
                             binding.llFreezer.visibility = View.VISIBLE
                         }
@@ -148,7 +149,7 @@ class RecommendFragment : Fragment() {
                 is Resource.Success -> {
                     //binding.llProgress.visibility = View.INVISIBLE
                     recommendCardAdapter1.loading = false
-                    Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
+                    Log.i(TAG, "Successfully fetched ${it.data?.size} basic recipes.")
                     it.data?.let { recipes ->
                         recommendCardAdapter1.recipes = recipes.take(4)
                         recommendCardAdapter1.setMoreClickListener(object :
@@ -159,13 +160,17 @@ class RecommendFragment : Fragment() {
                                 intent.putExtra("recipe_list", RecipeList(recipes) as Serializable)
                                 startActivity(intent)
                             }
+
+                            override fun onRefreshClick() {
+                                initData()
+                            }
                         })
                     }
                 }
                 is Resource.Error -> {
                     //binding.llProgress.visibility = View.INVISIBLE
                     recommendCardAdapter1.loading = false
-                    Log.i(TAG, "Failed to fetch recipes. ${it.message}")
+                    Log.i(TAG, "Failed to fetch basic recipes ${it.message}")
                 }
                 is Resource.Loading -> {
                     //binding.llProgress.visibility = View.VISIBLE
@@ -180,7 +185,7 @@ class RecommendFragment : Fragment() {
                 is Resource.Success -> {
                     //binding.llProgress.visibility = View.INVISIBLE
                     recommendCardAdapter2.loading = false
-                    Log.i(TAG, "Successfully fetched.${it.data?.size} recipes.")
+                    Log.i(TAG, "Successfully fetched ${it.data?.size} web recipes.")
                     it.data?.let { recipes ->
                         recommendCardAdapter2.recipes = recipes.take(4)
                         recommendCardAdapter2.setMoreClickListener(object :
@@ -196,13 +201,15 @@ class RecommendFragment : Fragment() {
 //                                } as Serializable)
                                 startActivity(intent)
                             }
+
+                            override fun onRefreshClick() {}
                         })
                     }
                 }
                 is Resource.Error -> {
                     //binding.llProgress.visibility = View.INVISIBLE
                     recommendCardAdapter2.loading = false
-                    Log.i(TAG, "Failed to fetch recipes. ${it.message}")
+                    Log.i(TAG, "Failed to fetch web recipes. ${it.message}")
                 }
                 is Resource.Loading -> {
                     //binding.llProgress.visibility = View.VISIBLE

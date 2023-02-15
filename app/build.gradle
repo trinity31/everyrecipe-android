@@ -106,6 +106,8 @@ dependencies {
     //Paging
     implementation "androidx.paging:paging-runtime:$paging_version"
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     // Support for Java 8 features
     //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
     testImplementation 'junit:junit:4.13.2'

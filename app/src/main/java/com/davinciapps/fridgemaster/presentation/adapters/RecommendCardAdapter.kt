@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.davinciapps.fridgemaster.R
 import com.davinciapps.fridgemaster.data.model.Recipe
 import com.davinciapps.fridgemaster.databinding.CardRecommendListBinding
 import com.davinciapps.fridgemaster.presentation.viewmodel.BookmarkViewModel
@@ -24,6 +25,7 @@ class RecommendCardAdapter(
 
     interface OnMoreClickListener {
         fun onMoreClick()
+        fun onRefreshClick()
     }
 
     fun setMoreClickListener(listener: OnMoreClickListener) {
@@ -55,8 +57,12 @@ class RecommendCardAdapter(
                 adapter = RecommendCardRVAdapter(recipes, viewModel, showIng)
             }
             binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
+            binding.btnRefresh.visibility = if (loading || cardTitle != "기본 레시피") View.GONE else View.VISIBLE
             binding.btnMore.setOnClickListener {
                 listener?.onMoreClick()
+            }
+            binding.btnRefresh.setOnClickListener {
+                listener?.onRefreshClick()
             }
         }
     }
