@@ -40,7 +40,7 @@ class BookmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bookmarkViewModel = ViewModelProvider(this, bookmarkFactory)
+        bookmarkViewModel = ViewModelProvider(requireActivity())
             .get(BookmarkViewModel::class.java)
 
         initView()

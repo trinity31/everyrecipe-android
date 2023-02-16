@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -54,7 +55,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        freezerViewModel = ViewModelProvider(this, freezerFactory)
+        freezerViewModel = ViewModelProvider(requireActivity())
             .get(FreezerViewModel::class.java)
 
         searchViewModel = ViewModelProvider(this, searchFactory)
@@ -63,6 +64,12 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         initView()
         initData()
         initObserve()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        removeAllChips()
+        freezerViewModel.getFreezerExistingItems()
     }
 
     private fun initView() {
@@ -180,6 +187,18 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                 removeFromSearchFood(item.name)
             }
         }
+    }
+
+    private fun removeAllChips() {
+        // Loop through all the chips in the group and remove them
+//        binding.freezerChip.apply {
+//            for (i in 0 until this.childCount) {
+//                val chip = this.getChildAt(i)
+//                this.removeView(chip)
+//            }
+//        }
+
+        binding.freezerChip.removeAllViews()
     }
 
     private fun uncheckFreezerItem(name: String) {

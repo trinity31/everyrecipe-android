@@ -68,18 +68,24 @@ class RecommendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        freezerViewModel = ViewModelProvider(this, factory)
+        freezerViewModel = ViewModelProvider(requireActivity())
             .get(FreezerViewModel::class.java)
 
-        bookmarkViewModel = ViewModelProvider(this, bookmarkFactory)
+        bookmarkViewModel = ViewModelProvider(requireActivity())
             .get(BookmarkViewModel::class.java)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)
+        viewModel = ViewModelProvider(requireActivity())
             .get(RecommendViewModel::class.java)
 
         initView()
         initData()
         initObserve()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onResume")
+        bookmarkViewModel.getBookmarkedItems()
     }
 
     private fun initView() {
@@ -125,9 +131,9 @@ class RecommendFragment : Fragment() {
                     it.data?.let { list ->
                         if(list.size > 0) {
                             viewModel.getRecommendedRecipes(list)
-                            if(viewModel.recipesWeb.value?.data.isNullOrEmpty()) {
-                                viewModel.getRecommendedWebRecipes(list)
-                            }
+//                            if(viewModel.recipesWeb.value?.data.isNullOrEmpty()) {
+//                                viewModel.getRecommendedWebRecipes(list)
+//                            }
                         } else {
                             binding.llFreezer.visibility = View.VISIBLE
                         }

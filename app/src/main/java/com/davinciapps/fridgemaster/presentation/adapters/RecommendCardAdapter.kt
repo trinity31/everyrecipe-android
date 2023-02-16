@@ -57,6 +57,7 @@ class RecommendCardAdapter(
                 adapter = RecommendCardRVAdapter(recipes, viewModel, showIng)
             }
             binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
+            binding.recyclerView.visibility = if(loading) View.GONE else View.VISIBLE
             binding.btnRefresh.visibility = if (loading || cardTitle != "기본 레시피") View.GONE else View.VISIBLE
             binding.btnMore.setOnClickListener {
                 listener?.onMoreClick()
