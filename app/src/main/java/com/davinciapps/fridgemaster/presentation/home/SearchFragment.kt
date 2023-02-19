@@ -68,7 +68,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onResume() {
         super.onResume()
-        removeAllChips()
+        binding.freezerChip.removeAllViews()
         freezerViewModel.getFreezerExistingItems()
     }
 
@@ -106,7 +106,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun initData() {
         searchViewModel.getAllFoods()
-        freezerViewModel.getFreezerExistingItems()
+        //freezerViewModel.getFreezerExistingItems()
     }
 
     private fun initObserve() {
@@ -187,18 +187,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                 removeFromSearchFood(item.name)
             }
         }
-    }
-
-    private fun removeAllChips() {
-        // Loop through all the chips in the group and remove them
-//        binding.freezerChip.apply {
-//            for (i in 0 until this.childCount) {
-//                val chip = this.getChildAt(i)
-//                this.removeView(chip)
-//            }
-//        }
-
-        binding.freezerChip.removeAllViews()
     }
 
     private fun uncheckFreezerItem(name: String) {

@@ -2,6 +2,9 @@ package com.davinciapps.fridgemaster.presentation.home
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +24,12 @@ import com.davinciapps.fridgemaster.data.util.Resource
 import com.davinciapps.fridgemaster.databinding.FragmentRecommendBinding
 import com.davinciapps.fridgemaster.presentation.adapters.RecommendCardAdapter
 import com.davinciapps.fridgemaster.presentation.viewmodel.*
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 import javax.inject.Inject
@@ -82,12 +91,6 @@ class RecommendFragment : Fragment() {
         initObserve()
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.i(TAG, "onResume")
-        bookmarkViewModel.getBookmarkedItems()
-    }
-
     private fun initView() {
         recommendCardAdapter1 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_1), listOf(), viewModel = bookmarkViewModel, true)
         recommendCardAdapter2 = RecommendCardAdapter(resources.getString(R.string.recommend_card_title_2), listOf(), viewModel = bookmarkViewModel, false)
@@ -131,9 +134,9 @@ class RecommendFragment : Fragment() {
                     it.data?.let { list ->
                         if(list.size > 0) {
                             viewModel.getRecommendedRecipes(list)
-//                            if(viewModel.recipesWeb.value?.data.isNullOrEmpty()) {
-//                                viewModel.getRecommendedWebRecipes(list)
-//                            }
+                            if(viewModel.recipesWeb.value?.data.isNullOrEmpty()) {
+                                viewModel.getRecommendedWebRecipes(list)
+                            }
                         } else {
                             binding.llFreezer.visibility = View.VISIBLE
                         }
@@ -170,6 +173,11 @@ class RecommendFragment : Fragment() {
                             override fun onRefreshClick() {
                                 initData()
                             }
+
+                            override fun onItemClick() {
+                                val activity = requireActivity() as MainActivity
+                                activity.showInterstitial()
+                            }
                         })
                     }
                 }
@@ -200,15 +208,14 @@ class RecommendFragment : Fragment() {
                                 val intent = Intent(requireActivity(), SearchResultActivity::class.java)
                                 intent.putExtra("title", resources.getString(R.string.recommend_card_title_2))
                                 intent.putExtra("recipe_list", RecipeList(recipes) as Serializable)
-//                                intent.putExtra("freezer_item_list", freezerViewModel.existingItems.value?.data?.let { it1 ->
-//                                    FreezerItemList(
-//                                        it1
-//                                    )
-//                                } as Serializable)
                                 startActivity(intent)
                             }
 
                             override fun onRefreshClick() {}
+                            override fun onItemClick() {
+                                val activity = requireActivity() as MainActivity
+                                activity.showInterstitial()
+                            }
                         })
                     }
                 }

@@ -7,6 +7,7 @@ import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import dagger.hilt.android.HiltAndroidApp
+import com.google.android.gms.ads.MobileAds
 
 @HiltAndroidApp
 class App : Application() {
@@ -18,9 +19,13 @@ class App : Application() {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.configure(applicationContext)
 
-            Log.i("MyAmplifyApp", "Initialized Amplify")
+            Log.i("App", "Initialized Amplify")
+
+            MobileAds.initialize(this) {}
+
+            Log.i("App", "Initialized Admob")
         } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+            Log.e("App", "Could not initialize Amplify", error)
         }
     }
 }

@@ -20,9 +20,19 @@ class RecommendCardRVAdapter(
     var viewModel: BookmarkViewModel,
     var showIng: Boolean
 ) : RecyclerView.Adapter<RecommendCardRVAdapter.RecipeListRVViewHolder>(){
-    private val TAG = RecipeListAdapter::class.java.simpleName
+    private val TAG = RecommendCardRVAdapter::class.java.simpleName
 
     private lateinit var context: Context
+
+    private var listener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick()
+    }
+
+    fun setItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListRVViewHolder {
         context = parent.context
@@ -54,6 +64,7 @@ class RecommendCardRVAdapter(
                 intent.putExtra("description", recipe.recipe?.description)
                 context.startActivity(intent)
             }
+            listener?.onItemClick()
         }
     }
 

@@ -13,6 +13,7 @@ import com.davinciapps.fridgemaster.data.model.Recipe
 import com.davinciapps.fridgemaster.databinding.RecipeListItem2Binding
 import com.davinciapps.fridgemaster.presentation.home.DetailActivity
 import com.davinciapps.fridgemaster.presentation.home.DetailWebActivity
+import com.davinciapps.fridgemaster.presentation.home.MainActivity
 import com.davinciapps.fridgemaster.presentation.viewmodel.BookmarkViewModel
 
 class RecipeListAdapter(
@@ -23,6 +24,16 @@ class RecipeListAdapter(
     private val TAG = RecipeListAdapter::class.java.simpleName
 
     private lateinit var context: Context
+
+    private var listener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick()
+    }
+
+    fun setItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
         context = parent.context
@@ -48,12 +59,13 @@ class RecipeListAdapter(
                 context.startActivity(intent)
             } else {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("title", recipe.recipe?.name)
-                intent.putExtra("id", recipe.recipe?.id)
-                intent.putExtra("imageUrl", recipe.recipe?.imageUrl)
-                intent.putExtra("description", recipe.recipe?.description)
+                intent.putExtra("title", recipe.recipe.name)
+                intent.putExtra("id", recipe.recipe.id)
+                intent.putExtra("imageUrl", recipe.recipe.imageUrl)
+                intent.putExtra("description", recipe.recipe.description)
                 context.startActivity(intent)
             }
+            listener?.onItemClick()
         }
     }
 

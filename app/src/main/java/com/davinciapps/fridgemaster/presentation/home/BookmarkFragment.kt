@@ -44,8 +44,13 @@ class BookmarkFragment : Fragment() {
             .get(BookmarkViewModel::class.java)
 
         initView()
-        initData()
+        //initData()
         initObserve()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initData()
     }
 
     private fun initView() {
@@ -53,7 +58,14 @@ class BookmarkFragment : Fragment() {
         binding.bookmarkRv.apply {
             adapter = recipeListAdapter
             layoutManager = LinearLayoutManager(activity)
+
         }
+        recipeListAdapter.setItemClickListener(object : RecipeListAdapter.OnItemClickListener {
+            override fun onItemClick() {
+               val activity = requireActivity() as MainActivity
+                activity.showInterstitial()
+            }
+        })
     }
 
     private fun initData() {

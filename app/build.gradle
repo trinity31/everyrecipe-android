@@ -9,16 +9,21 @@ plugins {
 android {
     compileSdk 33
 
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
     defaultConfig {
         applicationId "com.davinciapps.everyrecipe"
         minSdk 24
         targetSdk 33
-        versionCode 10201
-        versionName "1.2.1"
+        versionCode 10305
+        versionName "1.3.5"
         buildConfigField("String","BASE_URL",MY_URL)
         buildConfigField("String", "GOOGLE_URL", GOOGLE_API_URL)
         buildConfigField("String", "GOOGLE_SEARCH_ENGINE", GOOGLE_SEARCH_ENGINE_ID)
         buildConfigField("String", "GOOGLE_API_KEY", GOOGLE_API_KEY)
+        buildConfigField("String", "AD_UNIT_ID", AD_UNIT_ID)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +46,14 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
+    }
+    signingConfigs {
+        release {
+            keyAlias 'upload'
+            keyPassword 'mypassword'
+            storeFile file('mykeystore.jks')
+            storePassword 'mystorepassword'
+        }
     }
 }
 
@@ -107,6 +120,9 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Admob
+    implementation 'com.google.android.gms:play-services-ads:21.5.0'
 
     // Support for Java 8 features
     //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'

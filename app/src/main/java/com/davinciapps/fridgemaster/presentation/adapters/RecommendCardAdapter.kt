@@ -18,14 +18,17 @@ class RecommendCardAdapter(
     var showIng: Boolean,
     var loading:Boolean = true
 ) : RecyclerView.Adapter<RecommendCardAdapter.ViewHolder>() {
-    private val TAG = RecommendCardRVAdapter::class.java.simpleName
+    private val TAG = RecommendCardAdapter::class.java.simpleName
     private lateinit var context: Context
+
+    private lateinit var recipeListAdapter: RecommendCardRVAdapter
 
     private var listener: OnMoreClickListener? = null
 
     interface OnMoreClickListener {
         fun onMoreClick()
         fun onRefreshClick()
+        fun onItemClick()
     }
 
     fun setMoreClickListener(listener: OnMoreClickListener) {
@@ -52,9 +55,15 @@ class RecommendCardAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(cardTitle: String, context: Context) {
             binding.titleTextView.text = cardTitle
+            recipeListAdapter = RecommendCardRVAdapter(recipes, viewModel, showIng)
+            recipeListAdapter.setItemClickListener(object : RecommendCardRVAdapter.OnItemClickListener {
+                override fun onItemClick() {
+                    listener?.onItemClick()
+                }
+            })
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = RecommendCardRVAdapter(recipes, viewModel, showIng)
+                adapter = recipeListAdapter
             }
             binding.loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
             binding.recyclerView.visibility = if(loading) View.GONE else View.VISIBLE
